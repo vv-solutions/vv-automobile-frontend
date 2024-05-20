@@ -6,46 +6,78 @@ import productFacade from "../../facades/productFacade";
 import ProductGrid from "../../components/ProductGrid";
 import categoryFacade from "../../facades/categoryFacade";
 import { Select } from "antd";
+import brandFacade from "../../facades/brandFacade";
+import {forEach} from "react-bootstrap/ElementChildren";
 function Index() {
 
     const[result, setResult] = useState("")
     const [products, setProducts ] = useState([]);
+    const [brands, setBrands ] = useState([]);
     const router = useRouter();
-    const[search,setSearch] = useState();
-    // const { addToCart } = useCart();
-    let orderBy = "popularity"
-    let direction="asc"
-    let pageCount = 0
 
+    const [pageCount, setPageCount] = useState(0);
+    const[showLoadMoreBtn, setshowLoadMoreBtn] = useState(true)
+
+    const [brandsSelected, setBrandsSelected ] = useState([]);
+    const [direction, setDirection ] = useState("asc");
+    const [orderBy, setOrderBy ] = useState("popularity");
 
     useEffect(() => {
        if(router.query.category) {
            fetchProducts(router.query.category);
+           fetchBrands();
        }
 
     }, [router.isReady]);
 
+    const fetchBrands = async() =>{
+        const brandsFetched = await brandFacade.getAll()
+        setBrands(brandsFetched.map(brand => ({
+            label: brand.name,
+            value: brand.id
+        })))
+        console.log(brandsFetched)
+    }
 
-    const fetchProducts = async (category) => {
-        console.log("new test : "+ category)
-        await productFacade.getProductsByCategory(category,15,pageCount,[],orderBy,direction).then(setProducts)
-        pageCount++
+    const fetchProducts = async (category, refreshList) => {
+        const newProducts =  await productFacade.getProductsByCategory(category,15,pageCount,brandsSelected,orderBy,direction);
+        if (newProducts.length<15){
+            setshowLoadMoreBtn(false)
+        }
+        if(!refreshList) {
+            setProducts(products.concat(newProducts));
+        }else{
+            setProducts(newProducts)
+        }
+        setPageCount(pageCount + 1);
     }
     const loadMore = () =>{
-        fetchProducts()
+        fetchProducts(router.query.category)
 
     }
-    const handleChange = (value) => {
+    const handleSortingChange = (value) => {
+        setPageCount(0)
+        if(value="popularity"){
+            setDirection("desc")
+            setOrderBy(value)
+        }else if (value = "priceDesc"){
+            setOrderBy("price")
+            setDirection("desc")
+        }else if (value = "priceAsc"){
+            setOrderBy("price")
+            setDirection("asc")
+        }
+        fetchProducts(router.query.category,true)
         console.log(`selected ${value}`);
     };
 
-    const options = [];
-    for (let i = 10; i < 36; i++) {
-        options.push({
-            label: i.toString(36) + i,
-            value: i.toString(36) + i,
-        });
-    }
+    const handleBrandChange = (value) => {
+        setPageCount(0)
+        setProducts([])
+        setBrandsSelected(value)
+        fetchProducts(router.query.category,true)
+        console.log(`selected ${value}`);
+    };
 
     return(
         <>
@@ -57,7 +89,7 @@ function Index() {
                         <Select
                             defaultValue="popularity"
                             style={{minWidth: 160}}
-                            onChange={handleChange}
+                            onChange={handleSortingChange}
                             options={[
                                 {value: 'popularity', label: 'Popularity'},
                                 {value: 'priceDesc', label: 'Price high-low'},
@@ -73,8 +105,8 @@ function Index() {
                             allowClear
                             style={{minWidth: 200, maxWidth: 300}}
                             placeholder="Choose brands"
-                            onChange={handleChange}
-                            options={options}
+                            onChange={handleBrandChange}
+                            options={brands}
                         />
                     </div>
                 </div>
@@ -84,7 +116,12 @@ function Index() {
                         <ProductGrid products={products}/>
                     }
                 </Row>
+                {showLoadMoreBtn &&
+                <div className={"text-center"}>
+
                 <Button onClick={loadMore} className={"btn-secondary text-center"}>Load more</Button>
+                </div>
+                }
             </div>
         </>
     )
