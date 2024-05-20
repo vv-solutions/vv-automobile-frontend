@@ -1,16 +1,15 @@
-import {useRouter} from "next/router";
 import {makeOptions} from "../util/fetchUtil";
 
 function productFacade() {
 
     const URL = '/api/product/';
 
-    async function getProductsByCategory(category,count,page,brands) {
+    async function getProductsByCategory(category,count,page,brands,orderBy,direction) {
         const opts = makeOptions('GET');
 
-        const path = `category?category=${category}&count=${count}&page=${page}${brands.map(b => "&brands="+b).join("")}`
+        const path = `category?category=${category}&count=${count}&page=${page}${brands.map(b => "&brands="+b).join("")}&orderBy=${orderBy}&direction=${direction}`
 
-        return fetch(URL + path, await opts).then((r) => r.text());
+        return await fetch(URL + path, opts).then((r) => r.json());
     }
 
     async function getProductById(id) {
