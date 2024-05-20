@@ -13,19 +13,26 @@ function Index() {
     const router = useRouter();
     const[search,setSearch] = useState();
     // const { addToCart } = useCart();
-
     let orderBy = "popularity"
+    let direction="asc"
     let pageCount = 0
+
+
     useEffect(() => {
-        fetchProducts();
-    }, []);
+       if(router.query.category) {
+           fetchProducts(router.query.category);
+       }
+
+    }, [router.isReady]);
 
 
-    const fetchProducts = async () => {
-        await productFacade.getProductsByCategory(1,15,pageCount,[],"price","asc").then(setProducts)
+    const fetchProducts = async (category) => {
+        console.log("new test : "+ category)
+        await productFacade.getProductsByCategory(category,15,pageCount,[],orderBy,direction).then(setProducts)
         pageCount++
     }
     const loadMore = () =>{
+        fetchProducts()
 
     }
     const handleChange = (value) => {
@@ -77,6 +84,7 @@ function Index() {
                         <ProductGrid products={products}/>
                     }
                 </Row>
+                <Button onClick={loadMore} className={"btn-secondary text-center"}>Load more</Button>
             </div>
         </>
     )
