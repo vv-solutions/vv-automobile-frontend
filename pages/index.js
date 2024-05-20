@@ -3,26 +3,24 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {Row} from "react-bootstrap";
 import CategoryGrid from "../components/CategoryGrid";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import categoryFacade from "../facades/categoryFacade";
 
 export default function Home() {
 
-  const [categories,setCategories] = useState([
-      { id: 1, name: "Accessories" },
-      { id: 2, name: "Interior" },
-      { id: 3, name: "Electronic Parts" },
-      { id: 4, name: "Lights" },
-      { id: 5, name: "Radio" },
-      { id: 6, name: "Tools" },
-      { id: 7, name: "Styling" },
-      { id: 8, name: "Paint" },
-      { id: 9, name: "Wash" },
-      { id: 10, name: "Maintenance" },
-      { id: 11, name: "Polishing" },
-      { id: 12, name: "Additives" },
-      { id: 13, name: "Towing" },
-      { id: 14, name: "Parts" }
-  ])
+  const [categories,setCategories] = useState([])
+    const test = async () =>{
+      console.log(await categoryFacade.getAll())
+    }
+
+
+    useEffect (() => {
+        const fetchCategories = async () => {
+            await categoryFacade.getAll().then(setCategories)
+        }
+
+        fetchCategories();
+    },[])
 
 
   return (
@@ -42,7 +40,7 @@ export default function Home() {
          </div>
      </Row>
 
-
+<button onClick={test}>test</button>
    </>
   )
 }
