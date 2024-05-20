@@ -13,7 +13,7 @@ function brandFacade() {
 
     async function getAll() {
         const opts = makeOptions('GET');
-        return await fetch(URL, opts).then((r) =>  r.json());
+        return await fetch(URL+"all", opts).then((r) =>  r.json());
     }
 
 
