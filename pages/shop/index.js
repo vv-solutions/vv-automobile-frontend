@@ -173,18 +173,18 @@ function Index() {
 
     return(
         <>
-            <div className="contentContainer shadow-sm p-3 mb-5 bg-white rounded">
+            <div className="contentContainer shadow-sm p-3 mb-5 bg-white rounded w-75 m-auto">
                 <h1 className="text-center mb-4">Products</h1>
                 <Form>
                     <Form.Group className="mb-4" controlId="start">
                         <Form.Control required type="text" onChange={handleSearch} placeholder="Search" />
                     </Form.Group>
                 </Form>
-                </div>
                 <Row>
 
               <ProductGrid products={searchProducts}/>
                 </Row>
+                </div>
         </>
     )
 }
