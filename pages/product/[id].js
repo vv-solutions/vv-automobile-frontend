@@ -1,6 +1,7 @@
 import {useRouter} from "next/router";
 import {Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
+import AddToCart from "../../components/AddToCart";
 
 function Index() {
 
@@ -36,15 +37,18 @@ function Index() {
     return(
         <>
             <div className="productContainer">
-                <h1 className="productName">{product.name}</h1>
                 <div className="productDetails">
                     <img className="productImage" src={product.imgUrl} alt={product.name} />
                     <div className="productInfo">
-                        <p className="productDescription">{product.description}</p>
-                        <p className="productPrice">Price: {product.price.toFixed(2)} DKK</p>
+                        <h1 className="productName">{product.name}</h1>
+                        <p className="productPrice">{product.price.toFixed(2)} DKK</p>
+                        <div className={"w-50"}>
+                        <AddToCart product={product}/>
+                        </div>
                         <p className="productStock">In Stock: {product.stock}</p>
                     </div>
                 </div>
+                <p className="productDescription">{product.description}</p>
             </div>
         </>
     )
