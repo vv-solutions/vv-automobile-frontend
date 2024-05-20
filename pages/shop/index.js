@@ -19,16 +19,28 @@ function Index() {
     const[showLoadMoreBtn, setshowLoadMoreBtn] = useState(true)
 
     const [brandsSelected, setBrandsSelected ] = useState([]);
-    const [direction, setDirection ] = useState("asc");
+    const [direction, setDirection ] = useState("desc");
     const [orderBy, setOrderBy ] = useState("popularity");
+    const [category,setCategory] = useState({name:"loading. . ."})
 
     useEffect(() => {
+
        if(router.query.category) {
-           fetchProducts(router.query.category);
-           fetchBrands();
+           if (orderBy && direction) {
+               fetchProducts(router.query.category, true);
+               console.log("if")
+           } else {
+            fetchProducts(router.query.category);
+               console.log("else")
+           }
+
+           if(brands.length < 1){
+               fetchBrands()
+               fetchCategory(router.query.category)
+           }
        }
 
-    }, [router.isReady]);
+    }, [router.isReady, orderBy,brandsSelected]);
 
     const fetchBrands = async() =>{
         const brandsFetched = await brandFacade.getAll()
@@ -39,8 +51,19 @@ function Index() {
         console.log(brandsFetched)
     }
 
+    const fetchCategory = async (id) =>{
+        await categoryFacade.getById(id).then(setCategory)
+    }
+
     const fetchProducts = async (category, refreshList) => {
-        const newProducts =  await productFacade.getProductsByCategory(category,15,pageCount,brandsSelected,orderBy,direction);
+
+        let newProducts;
+        if(!refreshList){
+
+         newProducts =  await productFacade.getProductsByCategory(category,15,pageCount,brandsSelected,orderBy);
+        } else {
+            newProducts =  await productFacade.getProductsByCategory(category,15,0,brandsSelected,orderBy);
+        }
         if (newProducts.length<15){
             setshowLoadMoreBtn(false)
         }
@@ -57,18 +80,7 @@ function Index() {
     }
     const handleSortingChange = (value) => {
         setPageCount(0)
-        if(value="popularity"){
-            setDirection("desc")
-            setOrderBy(value)
-        }else if (value = "priceDesc"){
-            setOrderBy("price")
-            setDirection("desc")
-        }else if (value = "priceAsc"){
-            setOrderBy("price")
-            setDirection("asc")
-        }
-        fetchProducts(router.query.category,true)
-        console.log(`selected ${value}`);
+        setOrderBy(value)
     };
 
     const handleBrandChange = (value) => {
@@ -82,7 +94,7 @@ function Index() {
     return(
         <>
             <div className="contentContainer shadow-sm p-3 mb-5 bg-white rounded w-75 m-auto">
-                <h1 className="text-center mb-4">Products</h1>
+                <h1 className="text-center mb-4">{category.name}</h1>
                 <div className="filter mb-4" style={{display: 'flex', alignItems: 'center'}}>
                     <div style={{marginRight: 15}}>
                         <p style={{margin: 0, fontSize: 12}}>Sorting</p>

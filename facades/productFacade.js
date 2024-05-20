@@ -4,11 +4,11 @@ function productFacade() {
 
     const URL = '/api/product/';
 
-    async function getProductsByCategory(category,count,page,brands,orderBy,direction) {
+    async function getProductsByCategory(category,count,page,brands,orderBy) {
 
         const opts = makeOptions('GET');
 
-        const path = `category?category=${category}&count=${count}&page=${page}${brands.map(b => "&brands="+b).join("")}&orderBy=${orderBy}&direction=${direction}`
+        const path = `category?category=${category}&count=${count}&page=${page}${brands.map(b => "&brands="+b).join("")}&orderBy=${orderBy}`
         console.log(path)
         return await fetch(URL + path, opts).then((r) => r.json());
     }
