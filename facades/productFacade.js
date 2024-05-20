@@ -17,12 +17,16 @@ function productFacade() {
         const opts = makeOptions('GET');
         return await fetch(URL  + id, opts).then((r) =>  r.json());
     }
-
+    async function getPopular(count) {
+        const opts = makeOptions('GET');
+        return await fetch(URL  + "popular/"+count, opts).then((r) =>  r.json());
+    }
 
 
     return {
         getProductsByCategory,
         getProductById,
+        getPopular
     };
 }
 
