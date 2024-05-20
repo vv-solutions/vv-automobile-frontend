@@ -22,11 +22,19 @@ function productFacade() {
         return await fetch(URL  + "popular/"+count, opts).then((r) =>  r.json());
     }
 
+    async function searchProducts(query) {
+        const opts = makeOptions('GET');
+
+    const path = "search?query="+query
+        return await fetch(URL  +path, opts).then((r) =>  r.json());
+    }
+
 
     return {
         getProductsByCategory,
         getProductById,
-        getPopular
+        getPopular,
+        searchProducts
     };
 }
 

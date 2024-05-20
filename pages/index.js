@@ -32,16 +32,9 @@ export default function Home() {
   return (
    <>
 
-     <Row>
-       <div className="text-center">
-        <h3>Search:</h3>
-        <input type="text"/>
-       </div>
-     </Row>
 
      <Row>
          <div className="p-5">
-
        <CategoryGrid categories={categories}/>
          </div>
      </Row>
