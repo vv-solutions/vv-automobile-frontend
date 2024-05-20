@@ -1,4 +1,4 @@
-export const makeOptions = async (method, body) => {
+export const makeOptions = (method, body) => {
     let opts = {
         method: method,
         headers: {
