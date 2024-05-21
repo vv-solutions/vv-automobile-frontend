@@ -85,9 +85,7 @@ function Index() {
 
     const handleBrandChange = (value) => {
         setPageCount(0)
-        setProducts([])
         setBrandsSelected(value)
-        fetchProducts(router.query.category,true)
         console.log(`selected ${value}`);
     };
 
