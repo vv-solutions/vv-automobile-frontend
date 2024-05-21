@@ -17,7 +17,7 @@ body{
 
 
 /* Applying the font */
-h1, h2, h3, .primary-heading {
+h1, h2, h3, .primary-heading, a{
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   color: #2C3E50; /* Midnight Blue */
@@ -184,11 +184,18 @@ body, p, .body-text {
 /*############ navbar ######### */
 
 .navbar a {
-  color: #BDC3C7!important;
+  text-decoration: none;
+  color: #BDC3C7
+}
+
+.navbar a:hover {
+  text-decoration: none;
+  color: white;
 }
 
 .link {
-  padding-right: 15px !important;
+  margin: 0 15px;
+  /*padding-right: 15px !important;*/
 }
 
 .dropdown-item a {
@@ -199,7 +206,8 @@ body, p, .body-text {
   color: white !important;
 }
 
-.nav-link.active {
+.navbar a:active {
+  text-decoration: none;
   color: white !important;
 }
 

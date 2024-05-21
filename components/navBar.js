@@ -29,9 +29,9 @@ const[query,setQuery] = useState("")
         <Navbar expand="sm" className="p-3 mb-3" style={{ backgroundColor: "#2C3E50" }}>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="me-auto">
+                <Nav className="me-auto align-items-center">
                     <Link href="/">
-                        <img src="../logo.png" height="30px" alt="Logo" style={{ filter: 'brightness(0) invert(1)' }}></img>
+                        <img src="../logo.png" height="60px" alt="Logo" ></img>
                     </Link>
                     <Link className="link" href="/">
                         Home
