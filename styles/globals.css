@@ -51,7 +51,6 @@ body, p, .body-text {
 button {
   font-family: 'Raleway', sans-serif;
   font-weight: 700;
-  color: #E74C3C; /* Crimson Red */
 }
 
 
@@ -338,19 +337,25 @@ body, p, .body-text {
 /*  text-align: center;*/
 /*}*/
 
-/*.cart-line__amount .button {*/
-/*  background: none;*/
-/*  border: 1px solid #ddd;*/
-/*  padding: 5px 10px;*/
-/*  cursor: pointer;*/
-/*}*/
+.cart-line__amount .button {
+  background: none;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
 
-/*.cart-line__amount .amount-input {*/
-/*  width: 50px;*/
-/*  text-align: center;*/
-/*  border: 1px solid #ddd;*/
-/*  margin: 0 5px;*/
-/*}*/
+.cart-line__delete .button {
+  background: none;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.cart-line__amount .amount-input {
+  width: 50px;
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 2.5px 18px;
+}
 
 /*.cart-line__delete .button {*/
 /*  background: none;*/
@@ -417,12 +422,22 @@ body, p, .body-text {
 .shopping-cart-summary {
   float: right;
   height: 100px;
-  background-color: #f8f9fa;
   padding: 20px;
-  border: 1px solid #ddd;
   border-radius: 5px;
 }
-
-.total {
-  margin-bottom: 20px;
+.total_price_row{
+  float: right;
+  margin-right: 20px !important;
+}
+.button_minus{
+  padding: 2.5px 18px;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  margin:0 !important;
+}
+.button_plus{
+  padding: 2.5px 18px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  margin:0 !important;
 }

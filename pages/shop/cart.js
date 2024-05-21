@@ -176,12 +176,12 @@ function CartPage() {
                             Kr.&nbsp;{product.price}
                         </div>
                         <div className="cart-line__amount">
-                            <button className="button minus">-</button>
+                            <button className="button button_minus">-</button>
                             <input type="text" value="1" className="amount-input" readOnly/>
-                            <button className="button plus">+</button>
+                            <button className="button button_plus">+</button>
                         </div>
                         <div className="cart-line__delete">
-                            <button className="button delete"><i className="fas fa-trash-alt"></i></button>
+                            <button className="button button_delete"><i className="fas fa-trash-alt"></i></button>
                         </div>
                         <div className="cart-line__total">
                             Kr.&nbsp;{product.price}
@@ -198,7 +198,7 @@ function CartPage() {
                     </div>
 
                     <div className="shopping-cart-summary col-md-5 col-md-push-7">
-                        <div className="row total">
+                        <div className="row total_price_row">
                             <div className="col-md-6 col-xs-7">
                                 <strong>Total</strong>
                             </div>
@@ -208,10 +208,11 @@ function CartPage() {
                         </div>
                     </div>
                 </div>
-
+                <div className={"text-end"}>
                 {cartProducts.length > 0 &&
                     <button onClick={handleCompleteOrder} className="btn btn-success">To checkout</button>
-                }
+                }</div>
+
             </div>
         </div>
         </div>
