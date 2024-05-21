@@ -1,9 +1,14 @@
 import {useRouter} from "next/router";
 import productFacade from "../../facades/productFacade";
 import {useState} from "react";
+import CartComponent from "../../components/CartComponent";
+import InformationComponent from "../../components/InformationComponent";
+import categoryFacade from "../../facades/categoryFacade";
 
 function CartPage() {
     const router = useRouter();
+
+    const [showPage, setShowPage] = useState(1)
 
     // const [saleLine, setSaleLine] = useState({
     //     productId: '',
@@ -92,130 +97,25 @@ function CartPage() {
             "createTimestamp": "2023-05-15T15:12:27"
         }]);
 
-    // // Function to remove a product from the cart
-    const handleRemoveItemFromCart = (product) => {
-        // removeFromCart(product.id);
-    };
-
-    // Function to update the quantity of a product in the cart
-    const HandleUpdateItemQuantity = (product, newQuantity) => {
-        // if (newQuantity <= 0) {
-        //     removeFromCart(product);
-        // } else {
-        //     updateCart(product, newQuantity);
-        // }
-    };
-
-    // Calculate the total price of items in the cart
-    const getTotalPrice = () => {
-        // return cart.reduce((total, product) => total + product.price * product.quantity, 0);
-    };
-
-    const handleCompleteOrder = async () => {
-        let saleLines = []
-        for (const cartItem of cart) {
-            let saleLine = {}
-            saleLine.productId = cartItem.id
-            saleLine.quantity = cartItem.quantity
-            saleLines.push(saleLine)
-        }
-
-        // let res = await orderFacade.createOrder(saleLines);
-        // let orderId = res.msg;
-        // localStorage.removeItem("cart")
-        // await router.push({
-        //     pathname: '/customerOrders/'+orderId,
-        // });
+    const nextPage = () =>{
+        console.log("hello next page")
+        setShowPage(showPage+1)
     }
-
+    const prevPage = () =>{
+        setShowPage(showPage-1)
+    }
 
     return (
         <>
         <div className="contentContainer shadow-sm p-3 mb-5 bg-white rounded">
-            <div>
-                <div className="order-steps-menu hidden-print mb-5">
-                    <ul className="steps-list">
-                        <li className="active">
-                            <a href="/shop/cart" target="_top">Cart</a>
-                        </li>
-                        <li className="disabled">
-                            <a href="#" target="_top">Information</a>
-                        </li>
-                        <li className="disabled">
-                            <a href="#">Confirmation</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className="w-75 m-auto">
-                <div className="cart-headlines">
-                    <div className="header-item description">
-                        <h4>Product</h4>
-                    </div>
-                    <div className="header-item price">
-                        <h4>Unit price</h4>
-                    </div>
-                    <div className="header-item amount">
-                        <h4>Quantity</h4>
-                    </div>
-                    <div className="header-item delete">
-                        <h4>&nbsp;</h4>
-                    </div>
-                    <div className="header-item total">
-                        <h4>Price</h4>
-                    </div>
-                </div>
-                {cartProducts.map((product) => (
-                    <div className="cart-line" key={product.id}>
-                        <div className="cart-line__description">
-                            <strong className="title">
-                                <a href={product.url} target="_top" title={product.name}>{product.name}</a>
-                            </strong>
-                        </div>
-                        <div className="cart-line__price">
-                            Kr.&nbsp;{product.price}
-                        </div>
-                        <div className="cart-line__amount">
-                            <button className="button button_minus">-</button>
-                            <input type="text" value="1" className="amount-input" readOnly/>
-                            <button className="button button_plus">+</button>
-                        </div>
-                        <div className="cart-line__delete">
-                            <button className="button button_delete"><i className="fas fa-trash-alt"></i></button>
-                        </div>
-                        <div className="cart-line__total">
-                            Kr.&nbsp;{product.price}
-                        </div>
-                    </div>
-                ))}
-
-
-
-            <div className="summary">
-                <div className="row">
-                    <div className="main-content col-md-7 col-md-pull-5">
-
-                    </div>
-
-                    <div className="shopping-cart-summary col-md-5 col-md-push-7">
-                        <div className="row total_price_row">
-                            <div className="col-md-6 col-xs-7">
-                                <strong>Total</strong>
-                            </div>
-                            <div className="col-md-6 col-xs-5 price price-hidden">
-                                <span className="price">Kr.&nbsp;13.081,00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={"text-end"}>
-                {cartProducts.length > 0 &&
-                    <button onClick={handleCompleteOrder} className="btn btn-success">To checkout</button>
-                }</div>
+            {showPage == 1 &&
+            <CartComponent products={cartProducts} nextPage={nextPage}/>
+            }
+            {showPage == 2 &&
+            <InformationComponent nextPage={nextPage} prevPage={prevPage}/>
+            }
 
             </div>
-        </div>
-        </div>
 
 </>
 )
