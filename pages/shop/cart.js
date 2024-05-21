@@ -230,7 +230,7 @@ function CartPage() {
                     {/*        </div>*/}
                     {/*    ))}*/}
                     {/*</div>*/}
-                    <div className="">
+                    <div className="summary">
                         <div className="row">
                             <div className="main-content col-md-7 col-md-pull-5">
 
