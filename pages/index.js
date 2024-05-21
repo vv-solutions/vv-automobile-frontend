@@ -22,7 +22,6 @@ export default function Home() {
             await categoryFacade.getAll().then(setCategories)
             await productFacade.getPopular(20).then(setProducts)
         }
-        console.log(router.query.test);
         fetchData();
     },[router.isReady])
     const[products,setProducts] = useState([])
@@ -48,8 +47,6 @@ export default function Home() {
                }
            </div>
        </Row>
-
-<button onClick={test}>test</button>
    </>
   )
 }
