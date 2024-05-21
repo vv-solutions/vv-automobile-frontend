@@ -4,6 +4,7 @@ import {useState} from "react";
 import CartComponent from "../../components/CartComponent";
 import OrderComponent from "../../components/OrderComponent";
 import categoryFacade from "../../facades/categoryFacade";
+import ConfirmationComponent from "../../components/ConfirmationComponent";
 
 function CartPage() {
     const router = useRouter();
@@ -120,6 +121,8 @@ function CartPage() {
                 ]
         }
     )
+    const [createdOrder, setCreatedOrder] = useState()
+
 
     const nextPage = () => {
         setShowPage(showPage + 1)
@@ -135,7 +138,10 @@ function CartPage() {
                     <CartComponent products={cartProducts} nextPage={nextPage} order={order} setOrder={setOrder}/>
                 }
                 {showPage == 2 &&
-                    <OrderComponent nextPage={nextPage} prevPage={prevPage} order={order} setOrder={setOrder}/>
+                    <OrderComponent nextPage={nextPage} prevPage={prevPage} order={order} setOrder={setOrder} setCreatedOrder={setCreatedOrder}/>
+                }
+                {(showPage == 3 && createdOrder) &&
+                    <ConfirmationComponent order={createdOrder}/>
                 }
 
             </div>

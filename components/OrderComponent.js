@@ -1,6 +1,8 @@
 import {useRouter} from "next/router";
+import orderFacade from "../facades/orderFacade";
+import {log} from "next/dist/server/typescript/utils";
 
-function OrderComponent({nextPage, prevPage, order,setOrder}) {
+function OrderComponent({nextPage, prevPage, order,setOrder, setCreatedOrder}) {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -10,9 +12,11 @@ function OrderComponent({nextPage, prevPage, order,setOrder}) {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', order);
+        await orderFacade.createOrder(order).then(setCreatedOrder)
+        nextPage()
+
     };
 
     return (
@@ -55,7 +59,7 @@ function OrderComponent({nextPage, prevPage, order,setOrder}) {
                         <label htmlFor="mobile" className="form-label">
                             Phone.<span className="text-danger">*</span>
                         </label>
-                        <input type="text" className="form-control" id="mobile" value={order.mobile}
+                        <input type="text" className="form-control" id="phone" value={order.phone}
                                onChange={handleChange} required/>
                     </div>
                     <div className="col-md-6">
