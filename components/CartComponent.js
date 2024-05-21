@@ -1,14 +1,19 @@
 import {useRouter} from "next/router";
 
-function CartComponent({products, nextPage}) {
+function CartComponent({products, nextPage, order,setOrder}) {
 
+    const handleNextPage = () => {
 
+        //set order lines
+
+        nextPage()
+    }
 
     return (
         <>
             <div>
                 <div className="order-steps-menu hidden-print mb-5">
-                    <h5 className={"text-start w-75 m-auto" }style={{color:"white"}}>.</h5>
+                    <h5 className={"text-start w-75 m-auto" } style={{color:"white"}}>.</h5>
                     <ul className="steps-list">
                         <li className="active">
                             Cart
@@ -86,7 +91,7 @@ function CartComponent({products, nextPage}) {
                 </div>
             <div className={"text-end"}>
                 {products.length > 0 &&
-                    <button onClick={nextPage} className="btn btn-success">To checkout</button>
+                    <button onClick={handleNextPage} className="btn btn-success">To checkout</button>
                 }</div>
             </div>
         </>

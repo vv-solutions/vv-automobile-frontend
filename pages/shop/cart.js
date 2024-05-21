@@ -2,7 +2,7 @@ import {useRouter} from "next/router";
 import productFacade from "../../facades/productFacade";
 import {useState} from "react";
 import CartComponent from "../../components/CartComponent";
-import InformationComponent from "../../components/InformationComponent";
+import OrderComponent from "../../components/OrderComponent";
 import categoryFacade from "../../facades/categoryFacade";
 
 function CartPage() {
@@ -97,28 +97,51 @@ function CartPage() {
             "createTimestamp": "2023-05-15T15:12:27"
         }]);
 
-    const nextPage = () =>{
-        console.log("hello next page")
-        setShowPage(showPage+1)
+
+    const [order, setOrder] = useState({
+            firstName: "",
+            lastName: "",
+            phone: "",
+            email: "",
+            street: "",
+            houseNumber: "",
+            addressLine2: "",
+            zipcode: "",
+            orderLines:
+                [
+                    {
+                        "productId": 1,
+                        "quantity": 5
+                    },
+                    {
+                        "productId": 3,
+                        "quantity": 1
+                    }
+                ]
+        }
+    )
+
+    const nextPage = () => {
+        setShowPage(showPage + 1)
     }
-    const prevPage = () =>{
-        setShowPage(showPage-1)
+    const prevPage = () => {
+        setShowPage(showPage - 1)
     }
 
     return (
         <>
-        <div className="contentContainer shadow-sm p-3 mb-5 bg-white rounded">
-            {showPage == 1 &&
-            <CartComponent products={cartProducts} nextPage={nextPage}/>
-            }
-            {showPage == 2 &&
-            <InformationComponent nextPage={nextPage} prevPage={prevPage}/>
-            }
+            <div className="contentContainer shadow-sm p-3 mb-5 bg-white rounded">
+                {showPage == 1 &&
+                    <CartComponent products={cartProducts} nextPage={nextPage} order={order} setOrder={setOrder}/>
+                }
+                {showPage == 2 &&
+                    <OrderComponent nextPage={nextPage} prevPage={prevPage} order={order} setOrder={setOrder}/>
+                }
 
             </div>
 
-</>
-)
+        </>
+    )
 }
 
 export default CartPage;
