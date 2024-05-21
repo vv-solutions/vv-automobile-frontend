@@ -51,7 +51,7 @@ const[query,setQuery] = useState("")
                         style={{
                             backgroundColor: "#ECF0F1",
                             borderColor: "#6c757d",
-                            color: "#ffffff"
+
                         }}
                     />
                     <Button variant="outline-light" type={"submit"}>Search</Button>
