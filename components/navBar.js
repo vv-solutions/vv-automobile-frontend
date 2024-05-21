@@ -26,7 +26,7 @@ const[query,setQuery] = useState("")
     }
 
     return (
-        <Navbar expand="sm" className="p-3 mb-3" style={{ backgroundColor: "#343a3f" }}>
+        <Navbar expand="sm" className="p-3 mb-3" style={{ backgroundColor: "#2C3E50" }}>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
@@ -49,7 +49,7 @@ const[query,setQuery] = useState("")
                         value={query}
                         onChange={handleChange}
                         style={{
-                            backgroundColor: "#495057",
+                            backgroundColor: "#ECF0F1",
                             borderColor: "#6c757d",
                             color: "#ffffff"
                         }}

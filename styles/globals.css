@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&700&display=swap');
 /*######### categoryGird ##########*/
 .grid-container {
   display: grid;
@@ -5,9 +9,74 @@
   gap: 16px;
   padding: 16px;
 }
+body{
+  #color: #34495E
+}
+
+/* Importing the font */
+
+
+/* Applying the font */
+h1, h2, h3, .primary-heading {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #2C3E50; /* Midnight Blue */
+}
+
+
+/* Importing the font */
+
+/* Applying the font */
+/* Importing the font */
+
+/* Applying the font */
+h4, h5, h6, .secondary-heading {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  color: #34495E; /* Charcoal Gray */
+}
+
+/* Importing the font */
+
+/* Applying the font */
+body, p, .body-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  color: #34495E; /* Charcoal Gray */
+}
+
+/* Importing the font */
+
+/* Applying the font */
+button {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  color: #E74C3C; /* Crimson Red */
+}
+
+
+/* Importing the font */
+
+/* Applying the font */
+body, p, .body-text {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  color: #34495E; /* Charcoal Gray */
+}
+
+/* Importing the font */
+
+/* Applying the font */
+.accent-text, .cta-button {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  color: #E74C3C; /* Crimson Red */
+}
+
+
 
 .grid-item {
-  background-color: #f0f0f0;
+  background-color: #BDC3C7;
   padding: 20px;
   text-align: center;
   border: 1px solid #ddd;
@@ -111,6 +180,27 @@
 }
 .addToCartButton:hover {
   background-color: #009c39;
+}
+/*############ navbar ######### */
+
+.navbar a {
+  color: #BDC3C7!important;
+}
+
+.link {
+  padding-right: 15px !important;
+}
+
+.dropdown-item a {
+  color: black !important;
+}
+
+.nav-link:focus, .nav-link:hover {
+  color: white !important;
+}
+
+.nav-link.active {
+  color: white !important;
 }
 
 /* CART */

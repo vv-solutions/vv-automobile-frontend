@@ -21,7 +21,7 @@ function CategoryGrid ({categories}) {
         <div className="grid-container">
             {categories.map(category => (
                 <div id={category.id} key={category.id} onClick={clickCategory} className="grid-item">
-                    {category.name}
+                    <h4>{category.name}</h4>
                 </div>
             ))}
         </div>
