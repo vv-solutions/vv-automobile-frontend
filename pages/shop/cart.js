@@ -131,132 +131,93 @@ function CartPage() {
 
     return (
         <>
-            <div className="contentContainer shadow-sm p-3 mb-5 bg-white rounded">
-                <div>
-                    <div className="order-steps-menu hidden-print mb-5">
-                        <ul className="steps-list">
-                            <li className="active">
-                                <a href="/shop/cart" target="_top">Kurv</a>
-                            </li>
-                            <li className="disabled">
-                                <a href="#" target="_top">Information</a>
-                            </li>
-                            <li className="disabled">
-                                <a href="#">Bekræftelse</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div className={"w-75 m-auto"}>
-                    <div className="cart-headlines">
-                        <div className="header-item empty">&nbsp;</div>
-                        <div className="header-item description">
-                            <h4>Beskrivelse</h4>
-                        </div>
-                        <div className="header-item price">
-                            <h4>Stk. pris</h4>
-                        </div>
-                        <div className="header-item amount">
-                            <h4>Antal</h4>
-                        </div>
-                        <div className="header-item delete"></div>
-                        <div className="header-item total">
-                            <h4>Pris</h4>
-                        </div>
-                    </div>
-                    {products.map((product) => (
-                        <div className="cart-line" data-itemnr={product.item_number} key={product.id}>
-                            <div className="cart-line__image">
-                                <a href={product.url} target="_top" title={product.title}>
-                                    <img src={product.image} alt={product.title}/>
-                                </a>
-                            </div>
-                            <div className="cart-line__description">
-                                <strong className="title">
-                                    <a href={product.url} target="_top" title={product.title}>{product.title}</a>
-                                </strong>
-                                <small>Varenr.&nbsp;{product.item_number}</small>
-                            </div>
-                            <div className="cart-line__price">
-                                Kr.&nbsp;{product.price}
-                            </div>
-                            <div className="cart-line__amount">
-                                <button className="button minus">-</button>
-                                <input type="text" value="1" className="amount-input" readOnly/>
-                                <button className="button plus">+</button>
-                            </div>
-                            <div className="cart-line__delete">
-                                <button className="button delete"><i className="fas fa-trash-alt"></i></button>
-                            </div>
-                            <div className="cart-line__total">
-                                Kr.&nbsp;{product.price}
-                            </div>
-                        </div>))}
-
-                    {/*<div className="row">*/}
-                    {/*    {cartProducts.map((product) => (*/}
-                    {/*        <div key={product.id} className="col-md-4 mb-4">*/}
-                    {/*            <div className="card">*/}
-                    {/*                <img src={product.imgUrl} alt={product.name} className="card-img-top w-25"  />*/}
-                    {/*                <div className="card-body">*/}
-                    {/*                    <h5 className="card-title">{product.name}</h5>*/}
-                    {/*                    <p className="card-text p1 m-0">Unit price: ${product.price}</p>*/}
-                    {/*                    <p className="card-text p1 m-0">Total price: ${(product.price * product.quantity).toFixed(2)}</p>*/}
-                    {/*                    <div className="d-flex align-items-center justify-content-between">*/}
-                    {/*                        <div className="quantity">*/}
-                    {/*                            <button*/}
-                    {/*                                className="btn btn-light"*/}
-                    {/*                                onClick={() => HandleUpdateItemQuantity(product, product.quantity - 1)}*/}
-                    {/*                            >*/}
-                    {/*                                -*/}
-                    {/*                            </button>*/}
-                    {/*                            <span className="mx-2">{product.quantity}</span>*/}
-                    {/*                            <button*/}
-                    {/*                                className="btn btn-light"*/}
-                    {/*                                onClick={() =>HandleUpdateItemQuantity(product, product.quantity + 1)}*/}
-                    {/*                            >*/}
-                    {/*                                +*/}
-                    {/*                            </button>*/}
-                    {/*                        </div>*/}
-                    {/*                        <button*/}
-                    {/*                            className="btn btn-danger"*/}
-                    {/*                            onClick={() => handleRemoveItemFromCart(product)}*/}
-                    {/*                        >*/}
-                    {/*                            Remove*/}
-                    {/*                        </button>*/}
-                    {/*                    </div>*/}
-                    {/*                </div>*/}
-                    {/*            </div>*/}
-                    {/*        </div>*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
-                    <div className="summary">
-                        <div className="row">
-                            <div className="main-content col-md-7 col-md-pull-5">
-
-                            </div>
-
-                            <div className="shopping-cart-summary col-md-5 col-md-push-7">
-                                <div className="row total">
-                                    <div className="col-md-6 col-xs-7">
-                                        <strong>Total</strong>
-                                    </div>
-                                    <div className="col-md-6 col-xs-5 price price-hidden">
-                                        <span className="price">Kr.&nbsp;13.081,00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {cartProducts.length > 0 &&
-                            <button onClick={handleCompleteOrder} className="btn btn-success">To checkout</button>
-                        }
-                    </div>
+        <div className="contentContainer shadow-sm p-3 mb-5 bg-white rounded">
+            <div>
+                <div className="order-steps-menu hidden-print mb-5">
+                    <ul className="steps-list">
+                        <li className="active">
+                            <a href="/shop/cart" target="_top">Cart</a>
+                        </li>
+                        <li className="disabled">
+                            <a href="#" target="_top">Information</a>
+                        </li>
+                        <li className="disabled">
+                            <a href="#">Confirmation</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
+            <div className="w-75 m-auto">
+                <div className="cart-headlines">
+                    <div className="header-item description">
+                        <h4>Product</h4>
+                    </div>
+                    <div className="header-item price">
+                        <h4>Unit price</h4>
+                    </div>
+                    <div className="header-item amount">
+                        <h4>Quantity</h4>
+                    </div>
+                    <div className="header-item delete">
+                        <h4>&nbsp;</h4>
+                    </div>
+                    <div className="header-item total">
+                        <h4>Price</h4>
+                    </div>
+                </div>
+                {cartProducts.map((product) => (
+                    <div className="cart-line" key={product.id}>
+                        <div className="cart-line__description">
+                            <strong className="title">
+                                <a href={product.url} target="_top" title={product.name}>{product.name}</a>
+                            </strong>
+                        </div>
+                        <div className="cart-line__price">
+                            Kr.&nbsp;{product.price}
+                        </div>
+                        <div className="cart-line__amount">
+                            <button className="button minus">-</button>
+                            <input type="text" value="1" className="amount-input" readOnly/>
+                            <button className="button plus">+</button>
+                        </div>
+                        <div className="cart-line__delete">
+                            <button className="button delete"><i className="fas fa-trash-alt"></i></button>
+                        </div>
+                        <div className="cart-line__total">
+                            Kr.&nbsp;{product.price}
+                        </div>
+                    </div>
+                ))}
 
-        </>
-    )
+
+
+            <div className="summary">
+                <div className="row">
+                    <div className="main-content col-md-7 col-md-pull-5">
+
+                    </div>
+
+                    <div className="shopping-cart-summary col-md-5 col-md-push-7">
+                        <div className="row total">
+                            <div className="col-md-6 col-xs-7">
+                                <strong>Total</strong>
+                            </div>
+                            <div className="col-md-6 col-xs-5 price price-hidden">
+                                <span className="price">Kr.&nbsp;13.081,00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {cartProducts.length > 0 &&
+                    <button onClick={handleCompleteOrder} className="btn btn-success">To checkout</button>
+                }
+            </div>
+        </div>
+        </div>
+
+</>
+)
 }
 
 export default CartPage;
