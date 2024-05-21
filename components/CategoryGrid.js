@@ -13,6 +13,8 @@ function CategoryGrid ({categories}) {
             query: { ...router.query, category: e.target.id }
         }
 
+
+        console.log(url)
         //router.query.category = e.target.id;
         router.push(url)
     }
@@ -20,8 +22,8 @@ function CategoryGrid ({categories}) {
     return (
         <div className="grid-container">
             {categories.map(category => (
-                <div id={category.id} key={category.id} onClick={clickCategory} className="grid-item">
-                    <h4>{category.name}</h4>
+                <div style={{zIndex:5}} id={category.id} key={category.id} onClick={clickCategory} className="grid-item">
+                    <h4  id={category.id}>{category.name}</h4>
                 </div>
             ))}
         </div>
