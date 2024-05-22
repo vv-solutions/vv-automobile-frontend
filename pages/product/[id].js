@@ -6,6 +6,8 @@ import productFacade from "../../facades/productFacade";
 import { Rate } from "antd";
 import {forEach} from "react-bootstrap/ElementChildren";
 import brandFacade from "../../facades/brandFacade";
+import reviewFacade from "../../facades/ReviewFacade";
+import ProductCarousel from "../../components/ProductCarousel";
 function Index() {
 
 
@@ -15,7 +17,10 @@ function Index() {
     const[search,setSearch] = useState();
     // const { addToCart } = useCart();
     const { id } = router.query;
-
+    const [reviews,setReviews] = useState()
+    const [createReview,setCreateReview] = useState({rating:0,email:"",description:""});
+    const [avgRating,setAvgRating] = useState(0);
+    const [recommendedProducts,setRecommendedProducts] = useState();
 
     const getStockColor = () =>{
         console.log("colled")
@@ -27,95 +32,71 @@ function Index() {
             return "red";
         }
 
-
     }
+
     useEffect(() => {
-
-        const fetchProduct = async () => {
-            let product = await productFacade.getProductById(id)
-            setProduct(product)
-            await brandFacade.getBrandById(product.brandId).then(setBrand)
-
-        }
         if(router.query.id) {
-
-            fetchProduct();
+            fetchData();
         }
 
 
-    }, [router.isReady]);
+    }, [router.isReady,router.query.id]);
 
-    const [reviews,setReviews] = useState([
-        // {
-        //     "email": "john.doe@example.com",
-        //     "rating": 5,
-        //     "comment": "Fantastic product! Exceeded my expectations in every way."
-        // },
-        // {
-        //     "email": "jane.smith@example.com",
-        //     "rating": 4,
-        //     "comment": "Great value for the price. Would highly recommend."
-        // },
-        // {
-        //     "email": "sam.wilson@example.com",
-        //     "rating": 3,
-        //     "comment": "Average experience. Some features could be improved."
-        // },
-        {
-            "email": "lisa.jones@example.com",
-            "rating": 2,
-            "comment": "Not very satisfied. The product did not meet my needs."
-        },
-        {
-            "email": "mike.brown@example.com",
-            "rating": 2,
-            "comment": "Terrible quality. Would not buy again."
-        },
-        {
-            "email": "emma.watson@example.com",
-            "rating": 2,
-            "comment": "Absolutely love it! Will definitely purchase more in the future."
-        },
-        {
-            "email": "david.taylor@example.com",
-            "rating": 2,
-            "comment": "Very good product, but there's room for improvement."
-        },
-        {
-            "email": "olivia.martin@example.com",
-            "rating": 2,
-            "comment": "It’s okay. Does the job but nothing spectacular."
-        },
-        {
-            "email": "noah.clark@example.com",
-            "rating": 2,
-            "comment": "Not impressed. There are better options available."
-        },
-        {
-            "email": "sophia.lewis@example.com",
-            "rating": 1,
-            "comment": "Very disappointed. Complete waste of money."
-        }
-        ])
+    const fetchData = async (fetchProductData) => {
+        let product = await productFacade.getProductById(id)
+        setProduct(product)
+        await brandFacade.getBrandById(product.brandId).then(setBrand)
+        let r;
+        await reviewFacade.getReviewsByProductId(id).then((re) => r = re)
+        setReviews(r)
+        getAvgRating(r)
+        await reviewFacade.getRecommendedById(id).then(setRecommendedProducts)
+    }
 
-    const getRating = () => {
+    const getAvgRating = (r) => {
 
         // Extracting the ratings
-        const ratings = reviews.map(review => review.rating);
+        const ratings = r.map(review => review.rating);
 
         // Calculating the mean rating
         const totalRating = ratings.reduce((sum, rating) => sum + rating, 0);
         const meanRating = totalRating / ratings.length;
         console.log(`rating ${meanRating}`)
-        return meanRating
+        setAvgRating(meanRating)
 
     }
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setCreateReview((createReview) => ({
+            ...createReview,
+            [id]: value
+        }));
+    };
+
+    const handleSubmitReview = async (e) => {
+        e.preventDefault()
+        let toCreate = createReview;
+
+        toCreate["productId"] = id;
+        let newReview;
+        await reviewFacade.createReview(toCreate).then((r)=> newReview = r )
+
+        let updated = reviews;
+        updated.unshift(newReview)
+        setReviews(updated)
+        getAvgRating(updated)
+        setCreateReview({rating:0,email:"",description:""})
+    }
+
 
 
     return(
         <>
             {product &&
             <div className="productContainer">
+                <Row>
+                    <div className="shadow p-3 mb-5 bg-white rounded">
                 <div className="productDetails">
                     <img className="productImage" src={product.imgUrl} alt={product.name} />
                     <div className="productInfo">
@@ -125,7 +106,7 @@ function Index() {
 
                         { reviews &&
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Rate disabled allowHalf defaultValue={getRating} />
+                                <Rate disabled allowHalf value={avgRating} defaultValue={0} />
                                 <p style={{ marginLeft: '10px', lineHeight: '24px', marginBottom: 0, color:"gray"}}>{reviews.length} reviews</p>
                             </div>
                         }
@@ -135,42 +116,60 @@ function Index() {
                         <p className="" style={{color: getStockColor()}} >In Stock: {product.productAvailabilityQuantity}</p>
                     </div>
                 </div>
-                <Row>
-                    <div className="shadow p-3 mb-5 bg-white rounded">
+
+
                         <h5>Description:</h5>
                         <p className="productDescription" style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>{product.description}</p>
                     </div>
                 </Row>
 
+                <Row>
+                    <div className="shadow p-3 mb-5 bg-white rounded">
+                        <h5>Other people bought:</h5>
+                        {recommendedProducts &&
+                            <div className="mb-2 " style={{maxWidth:`${Math.min(recommendedProducts.length,5)/5*100}%`}}>
+                            <ProductCarousel products={recommendedProducts}/>
+                            </div>
+                        }
+                    </div>
+                </Row>
+
                 <Row className="shadow p-3 mb-5 bg-white rounded">
                     <h5 className="mb-3">Leave a review:</h5>
-                    <Rate/>
+                    <Rate value={createReview.rating} onChange={(value) =>setCreateReview({...createReview,["rating"]:value}) } id="rating"/>
+                    <form onSubmit={handleSubmitReview}>
+
                     <div className="mb-1 mt-4 w-50">
                         <label htmlFor="exampleFormControlTextarea1" className="form-label">Email:</label>
-                        <input className="form-control" type={"text"} ></input>
+                        <input className="form-control" id="email" required value={createReview.email} onChange={handleChange} type={"email"} ></input>
                     </div>
                     <div className="mb-3 mt-3">
                         <label htmlFor="exampleFormControlTextarea1" className="form-label">Leave a comment:</label>
-                        <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea className="form-control" id="description" required value={createReview.description} onChange={handleChange} rows="3"></textarea>
                     </div>
                     <div className="float-end">
-                        <Button className="btn-primary"> submit</Button>
+                        <Button className="btn-primary" type={"submit"}> submit</Button>
                     </div>
+
+                    </form>
                 </Row>
                 <Row className="shadow p-3 mb-5 bg-white rounded">
                     <h5>Other people said: </h5>
-                    { reviews.map((r) =>(
+                    {
+                        reviews &&
+                        reviews.map((r) =>(
 
-                        <div key={r.email+r.comment}>
+                        <div key={r.email+r.description}>
                             <hr style={{borderBottom: "1px solid black"}}/>
                             <h6>{r.email}:</h6>
                             <Rate disabled defaultValue={r.rating}/>
-                            <p>{r.comment}</p>
+                            <p>{r.description}</p>
 
                         </div>
                     ))
                     }
                 </Row>
+
             </div>
             }
         </>
