@@ -15,7 +15,6 @@ export default async (req, res) => {
             break;
         case 'POST':
             const { productId, quantity, name, imgUrl, pricePerUnit } = req.body;
-            console.log("post cart items" + productId + quantity+ name + imgUrl + pricePerUnit)
             // await redis.hset(`cart:${sessionId}`, itemId, quantity);
             await redis.hset(`cart:${sessionId}`, productId, JSON.stringify({ quantity, name, imgUrl, pricePerUnit }));
             res.status(200).json({ message: 'Item added to cart' });
