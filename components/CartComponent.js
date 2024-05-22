@@ -1,14 +1,83 @@
 import {useRouter} from "next/router";
+import {useContext, useEffect, useState} from "react";
+import cartFacade from "../facades/cartFacade";
+import {CartContext} from "../Context/CartContext";
 
 function CartComponent({products, nextPage, order,setOrder}) {
 
+    const [cart, setCart] = useState([]);
+    const {updateCartQuantity } = useContext(CartContext);
+    useEffect(() => {
+        cartFacade.fetchCartItems().then(setCart).catch(error => console.error(error));
+    }, []);
+
+    const handleUpdateQuantity = async (productId, newQuantity) => {
+        try {
+            await cartFacade.updateCartItemQuantity(productId, newQuantity);
+            cartFacade.fetchCartItems().then(setCart).catch(error => console.error(error));
+            updateCartQuantity()
+        } catch (error) {
+            console.error('Failed to update quantity:', error);
+        }
+    };
+
+    const handleRemoveFromCart = async (productId) => {
+        try {
+            await cartFacade.removeFromCart(productId);
+            cartFacade.fetchCartItems().then(setCart).catch(error => console.error(error));
+            updateCartQuantity()
+        } catch (error) {
+            console.error('Failed to remove from cart:', error);
+        }
+    };
+
+    const handleIncrementQuantity = async (productId) => {
+        const product = cart.find(item => item.productId === productId);
+        if (product) {
+            const newQuantity = product.quantity + 1;
+            handleUpdateQuantity(productId, newQuantity);
+        }
+    };
+
+    const handleDecrementQuantity = async (productId) => {
+        const product = cart.find(item => item.productId === productId);
+        if (product) {
+            const newQuantity = Math.max(0, product.quantity - 1);
+            if (newQuantity === 0) {
+                handleRemoveFromCart(productId);
+            } else {
+                handleUpdateQuantity(productId, newQuantity);
+            }
+        }
+    };
+
+    const handleDeleteProduct = async (productId) => {
+        try {
+            await handleRemoveFromCart(productId);
+            setCart(cart.filter(item => item.productId !== productId));
+        } catch (error) {
+            console.error('Failed to delete product:', error);
+        }
+    };
+
     const handleNextPage = () => {
+        // Extract product IDs and quantities from cart items
+        const updatedOrderLines = cart.map(item => ({
+            productId: item.productId,
+            quantity: item.quantity
+        }));
 
-        //set order lines
-
+        setOrder(prevOrder => ({
+            ...prevOrder,
+            orderLines: updatedOrderLines
+        }));
         nextPage()
     }
-
+    const calculateTotalPrice = () => {
+        return cart.reduce((total, product) => {
+            return total + product.quantity * product.pricePerUnit;
+        }, 0).toFixed(2);
+    };
     return (
         <>
             <div>
@@ -45,8 +114,8 @@ function CartComponent({products, nextPage, order,setOrder}) {
                         <h4>Price</h4>
                     </div>
                 </div>
-                {products.map((product) => (
-                    <div className="cart-line" key={product.id}>
+                {cart.map((product) => (
+                    <div className="cart-line" key={product.productId}>
                         <div className="cart-line__description">
                             <strong className="title">
                                 <img src={product.imgUrl} alt={product.name} style={{width: 110, paddingRight: 30}}/>
@@ -55,18 +124,27 @@ function CartComponent({products, nextPage, order,setOrder}) {
                             </strong>
                         </div>
                         <div className="cart-line__price">
-                            Kr.&nbsp;{product.price}
+                            {product.pricePerUnit.toFixed(2)} DKK
                         </div>
                         <div className="cart-line__amount">
-                            <button className="button button_minus">-</button>
-                            <input type="text" value="1" className="amount-input" readOnly/>
-                            <button className="button button_plus">+</button>
+                            <button className="button button_minus"
+                                    onClick={() => handleDecrementQuantity(product.productId)}>-
+                            </button>
+                            <input type="text" value={product.quantity} className="amount-input" readOnly/>
+                            <button className="button button_plus"
+                                    onClick={() => handleIncrementQuantity(product.productId)}>+
+                            </button>
+
                         </div>
                         <div className="cart-line__delete">
-                            <button className="button button_delete"><i className="fas fa-trash-alt"></i></button>
+                            <button className="button button_delete"
+                                    onClick={() => handleDeleteProduct(product.productId)}>
+                                <i className="fas fa-trash-alt"></i>
+                            </button>
                         </div>
-                        <div className="cart-line__total">
-                            Kr.&nbsp;{product.price}
+                        <div
+                            className="cart-line__total">
+                            {(product.quantity * product.pricePerUnit).toFixed(2)} DKK
                         </div>
                     </div>
                 ))}
@@ -83,14 +161,14 @@ function CartComponent({products, nextPage, order,setOrder}) {
                                     <strong>Total</strong>
                                 </div>
                                 <div className="col-md-6 col-xs-5 price price-hidden">
-                                    <span className="price">Kr.&nbsp;10,000.90</span>
+                                    <span className="price">{calculateTotalPrice()} DKK</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             <div className={"text-end"}>
-                {products.length > 0 &&
+                {cart.length > 0 &&
                     <button onClick={handleNextPage} className="btn btn-success">To checkout</button>
                 }</div>
             </div>
