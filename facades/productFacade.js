@@ -29,12 +29,19 @@ function productFacade() {
         return await fetch(URL  +path, opts).then((r) =>  r.json());
     }
 
+    async function getAll() {
+        const opts = makeOptions('GET');
+        return await fetch(URL+"all", opts).then((r) =>  r.json());
+    }
+
+
 
     return {
         getProductsByCategory,
         getProductById,
         getPopular,
-        searchProducts
+        searchProducts,
+        getAll
     };
 }
 
