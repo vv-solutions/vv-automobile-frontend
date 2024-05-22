@@ -3,16 +3,19 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Button, Form, FormControl, NavItem, NavLink} from 'react-bootstrap';
 import Link from "next/link"
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ShoppingCartOutlined} from "@ant-design/icons";
 import {Badge} from "antd";
+import cartFacade from "../facades/cartFacade";
+import {CartContext} from "../Context/CartContext";
 
 
 function NavBar() {
+    const {cartQuantity} = useContext(CartContext);
+
     const router = useRouter();
 
 const[query,setQuery] = useState("")
-
     const handleChange = (e)=>{
         setQuery(e.target.value)
     }
@@ -26,6 +29,7 @@ const[query,setQuery] = useState("")
         //router.query.category = e.target.id;
         router.push(url)
     }
+
 
     return (
         <Navbar expand="sm" className="p-3 mb-3" style={{ backgroundColor: "#2C3E50" }}>
@@ -59,9 +63,8 @@ const[query,setQuery] = useState("")
                     />
                     <Button variant="outline-light" type={"submit"}>Search</Button>
                 </Form>
-                {/*<span className="navbar-text mr-3" style={{color:"white"}}>Kr. 10.0000,80</span>*/}
                 <Link className="link me-5" href="/shop/cart" passHref>
-                    <Badge count={8} offset={[10, 0]} style={{backgroundColor:'#f9f9f9', color:'black' ,border:"none"}}>
+                    <Badge count={cartQuantity} offset={[4, 0]} style={{backgroundColor:'#f9f9f9', color:'black' ,border:"none"}}>
                         <ShoppingCartOutlined style={{fontSize: '30px',color: '#BDC3C7'}}/>
                     </Badge>
                 </Link>

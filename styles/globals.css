@@ -318,46 +318,6 @@ body, p, .body-text {
   color: black;
 }
 
-/*.cart-headlines {*/
-/*  display: flex;*/
-/*  justify-content: space-between;*/
-/*  margin-top:10px;*/
-/*  border-bottom: 1px solid #ddd;*/
-/*  font-weight: bold;*/
-/*  text-align: center;*/
-/*  flex-flow: wrap;*/
-/*}*/
-
-/*.cart-headlines .header-item {*/
-/*  flex: 1;*/
-/*}*/
-/*.cart-headlines h4 {*/
-/*  font-weight: 400;*/
-/*  font-size: 18px;*/
-/*}*/
-/*.cart-line {*/
-/*  display: flex;*/
-/*  justify-content: space-between;*/
-/*  align-items: center;*/
-/*  padding: 10px 0;*/
-/*  border-bottom: 1px solid #ddd;*/
-/*}*/
-
-/*.cart-line__image img {*/
-/*  width: 100px;*/
-/*  height: auto;*/
-/*}*/
-
-/*.cart-line__description {*/
-/*  flex: 2;*/
-/*  text-align: left;*/
-/*  padding-left: 10px;*/
-/*}*/
-
-/*.cart-line__price, .cart-line__amount, .cart-line__total {*/
-/*  flex: 1;*/
-/*  text-align: center;*/
-/*}*/
 
 .cart-line__amount .button {
   background: none;
@@ -373,26 +333,20 @@ body, p, .body-text {
   border-radius: 5px;
   padding: 5px 10px;
   opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+.cart-line__delete .button:hover {
+  background-color: rgba(224, 220, 220, 0.42);
+  transition: transform 0.3s ease;
 }
 
 .cart-line__amount .amount-input {
-  width: 50px;
+  width: 75px;
   text-align: center;
   border: 1px solid #ddd;
   padding: 2.5px 18px;
 }
-
-/*.cart-line__delete .button {*/
-/*  background: none;*/
-/*  border: none;*/
-/*  cursor: pointer;*/
-/*  color: #ff4d4d;*/
-/*}*/
-/*.cart-headlines .description {*/
-/*   flex: 5;*/
-/*   padding: 0 10px;*/
-/* }*/
-
 .cart-headlines,
 .cart-line {
   display: flex;
@@ -434,6 +388,12 @@ body, p, .body-text {
 
 .cart-line__amount .button {
   margin: 0 5px;
+  transition: transform 0.3s ease;
+}
+.cart-line__amount .button:hover{
+  opacity: 0.8;
+  background-color: rgba(224, 220, 220, 0.42);
+  transition: transform 0.3s ease;
 }
 
 .shopping-cart {
@@ -452,7 +412,7 @@ body, p, .body-text {
 }
 .total_price_row{
   float: right;
-  margin-right: 20px !important;
+  width:250px
 }
 .button_minus{
   padding: 2.5px 18px;
