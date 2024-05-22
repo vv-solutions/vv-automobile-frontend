@@ -1,12 +1,12 @@
 import {useContext, useState} from 'react';
 import cartFacade from "../facades/cartFacade";
 import {CartContext} from "../Context/CartContext";
+import {LoadingOutlined} from "@ant-design/icons";
 
 const AddToCart = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(false);
     const {updateCartQuantity } = useContext(CartContext);
-
 
     const handleAddToCart = async (e) => {
         e.stopPropagation(); // Prevent the card click event
@@ -26,6 +26,7 @@ const AddToCart = ({ product }) => {
             }
             // Update the cart quantity displayed in the application
             updateCartQuantity();
+            await new Promise(resolve => setTimeout(resolve, 400)); // 1000 milliseconds (1 second)
         } catch (error) {
             console.error('Failed to add to cart:', error);
         } finally {
@@ -43,11 +44,16 @@ const AddToCart = ({ product }) => {
                 step="1"
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
                 className="quantityInput"
-                style={{ border: '1px solid #dcdcdc' }}
+                style={{border: '1px solid #dcdcdc'}}
                 onClick={(e) => e.stopPropagation()} // Prevent the card click event
             />
-            <button onClick={handleAddToCart} className="addToCartButton w-100" disabled={loading}>
-                {loading ? 'Adding...' : 'Buy'}
+            <button
+                onClick={handleAddToCart}
+                className="addToCartButton w-100"
+                disabled={loading}
+                style={{height: '36px'}}
+            >
+                {loading ? <LoadingOutlined/> : 'Buy'}
             </button>
         </div>
     );
