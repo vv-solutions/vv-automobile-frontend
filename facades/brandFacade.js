@@ -21,10 +21,16 @@ function brandFacade() {
         return await fetch(URL, opts).then((r) =>  r.json());
     }
 
+    async function create(brand) {
+        const opts = makeOptions('POST',brand);
+        return await fetch(URL , opts).then((r) =>  r.json());
+    }
+
     return {
         getBrandById,
         getAll,
-        update
+        update,
+        create
     };
 }
 

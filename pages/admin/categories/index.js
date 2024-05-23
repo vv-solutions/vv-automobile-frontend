@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import brandFacade from "../../../facades/brandFacade";
 import categoryFacade from "../../../facades/categoryFacade";
 import {useRouter} from "next/router";
+import {Button} from "react-bootstrap";
 
 const CategoriesIndexPage = () => {
 
@@ -14,7 +15,9 @@ const CategoriesIndexPage = () => {
     const clickEdit=(id)=>{
         router.push("/admin/categories/"+id)
     }
-
+    const clickCreate=()=>{
+        router.push("/admin/categories/create")
+    }
 
     const columns = [
         {
@@ -50,6 +53,7 @@ const CategoriesIndexPage = () => {
 
     return (
         <AdminLayout>
+            <Button className={"float-end"} onClick={()=>clickCreate()}>+</Button>
             <Table columns={columns} dataSource={categories} />
         </AdminLayout>
     );

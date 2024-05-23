@@ -8,6 +8,7 @@ import categoryFacade from "../../../facades/categoryFacade";
 import productFacade from "../../../facades/productFacade";
 import {useRouter} from "next/router";
 import { Spin } from 'antd';
+import {Button} from "react-bootstrap";
 const ProductsIndexPage = () => {
 
     const [products,setProducts] = useState([])
@@ -53,6 +54,12 @@ const ProductsIndexPage = () => {
     const clickEdit=(id)=>{
         router.push("/admin/products/"+id)
     }
+
+    const clickCreate=()=>{
+        router.push("/admin/products/create")
+    }
+
+
     if (loading) {
         return (
             <AdminLayout>
@@ -65,6 +72,7 @@ const ProductsIndexPage = () => {
 
     return (
         <AdminLayout>
+            <Button className={"float-end"} onClick={()=>clickCreate()}>+</Button>
             {/*{loading ? <Spin size="large" /> : <Table columns={columns} dataSource={products} />}*/}
             <Table columns={columns} dataSource={products} />
         </AdminLayout>

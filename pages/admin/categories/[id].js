@@ -39,7 +39,7 @@ const IdPage = () => {
     };
 
     const goBack = () =>{
-        router.back();
+        router.push("/admin/categories")
     }
 
     return (
