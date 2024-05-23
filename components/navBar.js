@@ -46,6 +46,7 @@ const[query,setQuery] = useState("")
                         Admin
                     </Link>
                 </Nav>
+                {!router.pathname.toLocaleLowerCase().includes("admin") &&
                 <Form className="d-flex me-auto" style={{flexGrow: 1, maxWidth: "500px", marginRight: "15px"}}
                       onSubmit={search}>
                     <FormControl
@@ -63,6 +64,7 @@ const[query,setQuery] = useState("")
                     />
                     <Button variant="outline-light" type={"submit"}>Search</Button>
                 </Form>
+                }
                 <Link className="link me-5" href="/shop/cart" passHref>
                     <Badge count={cartQuantity} offset={[4, 0]} style={{backgroundColor:'#f9f9f9', color:'black' ,border:"none"}}>
                         <ShoppingCartOutlined style={{fontSize: '30px',color: '#BDC3C7'}}/>

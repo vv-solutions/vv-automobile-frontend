@@ -29,9 +29,9 @@ function productFacade() {
         return await fetch(URL  +path, opts).then((r) =>  r.json());
     }
 
-    async function getAll() {
+    async function getAll(count,page) {
         const opts = makeOptions('GET');
-        return await fetch(URL+"all/", opts).then((r) =>  r.json());
+        return await fetch(URL+"all/"+count+"/"+page, opts).then((r) =>  r.json());
     }
 
     async function getProductAvailability(productId) {
