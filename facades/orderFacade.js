@@ -16,10 +16,16 @@ function orderFacade() {
         return await fetch(URL+"all", opts).then((r) =>  r.json());
     }
 
+    async function getById(id) {
+        const opts = makeOptions('GET');
+        return await fetch(URL+id, opts).then((r) =>  r.json());
+    }
+
 
     return {
         createOrder,
-        getAll
+        getAll,
+        getById
     };
 }
 

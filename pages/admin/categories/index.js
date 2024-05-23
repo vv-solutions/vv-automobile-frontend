@@ -3,10 +3,17 @@
 import AdminLayout from '../../../components/adminLayout';
 import { Table, Space } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import brandFacade from "../../../facades/brandFacade";
+import categoryFacade from "../../../facades/categoryFacade";
+import {useRouter} from "next/router";
 
 const CategoriesIndexPage = () => {
-    const [categories,setCategories] = useState([])
+
+    const router = useRouter()
+    const clickEdit=(id)=>{
+        router.push("/admin/categories/"+id)
+    }
 
 
     const columns = [
@@ -22,33 +29,28 @@ const CategoriesIndexPage = () => {
         },
         {
             title: 'Actions',
-            key: 'actions',
+            key: 'id',
             render: (text, record) => (
                 <Space size="middle">
-                    <EditOutlined style={{ color: 'blue' }} />
-                    <DeleteOutlined style={{ color: 'red' }} />
+                    <EditOutlined style={{ color: 'blue' }} onClick={()=>clickEdit(record.id)}/>
                 </Space>
             ),
         },
     ];
 
-    const data = [
-        {
-            key: '1',
-            id: '1',
-            name: 'Category 1',
-        },
-        {
-            key: '2',
-            id: '2',
-            name: 'Category 2',
-        },
-        // Add more categories as needed
-    ];
+    useEffect(()=>{
+        fetchData()
+    },[])
+
+
+    const [categories, setCategories] = useState()
+    const fetchData=async () => {
+        await categoryFacade.getAll().then(setCategories)
+    }
 
     return (
         <AdminLayout>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={categories} />
         </AdminLayout>
     );
 };

@@ -16,11 +16,15 @@ function brandFacade() {
         return await fetch(URL+"all", opts).then((r) =>  r.json());
     }
 
-
+    async function update(category) {
+        const opts = makeOptions('PUT',category);
+        return await fetch(URL, opts).then((r) =>  r.json());
+    }
 
     return {
         getBrandById,
         getAll,
+        update
     };
 }
 

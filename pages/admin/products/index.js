@@ -44,12 +44,15 @@ const ProductsIndexPage = () => {
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
-                    <EditOutlined style={{ color: 'blue' }} />
-                    <DeleteOutlined style={{ color: 'red' }} />
+                    <EditOutlined style={{ color: 'blue' }} onClick={()=> clickEdit(record.id)}/>
                 </Space>
             ),
         },
     ];
+
+    const clickEdit=(id)=>{
+        router.push("/admin/products/"+id)
+    }
     if (loading) {
         return (
             <AdminLayout>

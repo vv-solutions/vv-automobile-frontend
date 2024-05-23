@@ -17,10 +17,15 @@ function categoryId() {
     }
 
 
+    async function update(category) {
+        const opts = makeOptions('PUT',category);
+        return await fetch(URL, opts).then((r) =>  r.json());
+    }
 
     return {
         getById,
         getAll,
+        update
     };
 }
 

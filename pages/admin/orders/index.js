@@ -2,7 +2,7 @@
 
 import AdminLayout from '../../../components/adminLayout';
 import {Table, Space, Spin} from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, EyeOutlined} from '@ant-design/icons';
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import productFacade from "../../../facades/productFacade";
@@ -28,7 +28,9 @@ const OrdersIndexPage = () => {
         }
         fetchData();
     },[router.isReady])
-
+    const clickEdit=(id)=>{
+        router.push("/admin/orders/"+id)
+    }
 
     const columns = [
         {
@@ -61,8 +63,7 @@ const OrdersIndexPage = () => {
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
-                    <EditOutlined style={{ color: 'blue' }} />
-                    <DeleteOutlined style={{ color: 'red' }} />
+                    <EyeOutlined style={{ color: 'blue' }} onClick={() => clickEdit(record.id)} />
                 </Space>
             ),
         },

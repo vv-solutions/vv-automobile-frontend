@@ -14,8 +14,6 @@ function CategoryGrid ({categories}) {
         }
 
 
-        console.log(url)
-        //router.query.category = e.target.id;
         router.push(url)
     }
 

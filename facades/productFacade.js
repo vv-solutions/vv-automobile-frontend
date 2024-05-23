@@ -31,9 +31,18 @@ function productFacade() {
 
     async function getAll() {
         const opts = makeOptions('GET');
-        return await fetch(URL+"all", opts).then((r) =>  r.json());
+        return await fetch(URL+"all/", opts).then((r) =>  r.json());
     }
 
+    async function getProductAvailability(productId) {
+        const opts = makeOptions('GET');
+        return await fetch(URL  +"availability/"+ productId, opts).then((r) =>  r.json());
+    }
+
+    async function update(product) {
+        const opts = makeOptions('PUT',product);
+        return await fetch(URL, opts).then((r) =>  r.json());
+    }
 
 
     return {
@@ -41,7 +50,9 @@ function productFacade() {
         getProductById,
         getPopular,
         searchProducts,
-        getAll
+        getAll,
+        update,
+        getProductAvailability
     };
 }
 

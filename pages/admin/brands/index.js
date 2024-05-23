@@ -3,6 +3,10 @@
 import AdminLayout from '../../../components/adminLayout';
 import { Table, Space } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import {useEffect, useState} from "react";
+import brandFacade from "../../../facades/brandFacade";
+import categoryFacade from "../../../facades/categoryFacade";
+import {useRouter} from "next/router";
 
 const BrandsIndexPage = () => {
     const columns = [
@@ -21,30 +25,31 @@ const BrandsIndexPage = () => {
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
-                    <EditOutlined style={{ color: 'blue' }} />
-                    <DeleteOutlined style={{ color: 'red' }} />
+                    <EditOutlined style={{ color: 'blue' }} onClick={()=>clickEdit(record.id)} />
                 </Space>
             ),
         },
     ];
 
-    const data = [
-        {
-            key: '1',
-            id: '1',
-            name: 'Brand 1',
-        },
-        {
-            key: '2',
-            id: '2',
-            name: 'Brand 2',
-        },
-        // Add more brands as needed
-    ];
+    const router = useRouter()
+    const clickEdit=(id)=>{
+        router.push("/admin/brands/"+id)
+    }
+
+    useEffect(()=>{
+        fetchData()
+    },[])
+
+
+    const [brands, setBrands] = useState()
+    const fetchData=async () => {
+        await brandFacade.getAll().then(setBrands)
+    }
+
 
     return (
         <AdminLayout>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={brands} />
         </AdminLayout>
     );
 };

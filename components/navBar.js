@@ -32,18 +32,18 @@ const[query,setQuery] = useState("")
 
 
     return (
-        <Navbar expand="sm" className="p-3 mb-3" style={{ backgroundColor: "#2C3E50" }}>
+        <Navbar expand="sm" className="p-3" style={{ backgroundColor: "#2C3E50" }}>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto align-items-center">
                     <Link href="/">
-                        <img src="../logo.png" height="60px" alt="Logo"></img>
+                        <img src="/logo.png" height="60px" alt="Logo"></img>
                     </Link>
                     <Link className="link" href="/">
                         Home
                     </Link>
-                    <Link className="link" href="/index">
-                        Shop
+                    <Link className="link" href="/admin">
+                        Admin
                     </Link>
                 </Nav>
                 <Form className="d-flex me-auto" style={{flexGrow: 1, maxWidth: "500px", marginRight: "15px"}}
