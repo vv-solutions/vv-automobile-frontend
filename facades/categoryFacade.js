@@ -21,11 +21,16 @@ function categoryId() {
         const opts = makeOptions('PUT',category);
         return await fetch(URL, opts).then((r) =>  r.json());
     }
+    async function create(brand) {
+        const opts = makeOptions('POST',brand);
+        return await fetch(URL , opts).then((r) =>  r.json());
+    }
 
     return {
         getById,
         getAll,
-        update
+        update,
+        create
     };
 }
 

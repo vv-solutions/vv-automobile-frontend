@@ -44,6 +44,11 @@ function productFacade() {
         return await fetch(URL, opts).then((r) =>  r.json());
     }
 
+    async function create(product) {
+        const opts = makeOptions('POST',product);
+        return await fetch(URL , opts).then((r) =>  r.json());
+    }
+
 
     return {
         getProductsByCategory,
@@ -52,7 +57,8 @@ function productFacade() {
         searchProducts,
         getAll,
         update,
-        getProductAvailability
+        getProductAvailability,
+        create
     };
 }
 

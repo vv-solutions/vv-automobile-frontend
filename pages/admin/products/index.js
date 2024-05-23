@@ -9,6 +9,7 @@ import productFacade from "../../../facades/productFacade";
 import {useRouter} from "next/router";
 import { Spin } from 'antd';
 import {Button, FormControl, InputGroup} from "react-bootstrap";
+
 const ProductsIndexPage = () => {
 
     const [products,setProducts] = useState([])
@@ -78,6 +79,12 @@ const ProductsIndexPage = () => {
     const clickEdit=(id)=>{
         router.push("/admin/products/"+id)
     }
+
+    const clickCreate=()=>{
+        router.push("/admin/products/create")
+    }
+
+
     if (loading) {
         return (
             <AdminLayout>
@@ -103,6 +110,7 @@ const ProductsIndexPage = () => {
 
     return (
         <AdminLayout>
+            <Button className={"float-end"} onClick={()=>clickCreate()}>+</Button>
             {/*{loading ? <Spin size="large" /> : <Table columns={columns} dataSource={products} />}*/}
             <Form className="mb-3 w-25">
                 <InputGroup>

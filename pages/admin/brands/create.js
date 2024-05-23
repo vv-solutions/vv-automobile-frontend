@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import {Input} from "antd";
+import {Input, message} from "antd";
 import categoryFacade from "../../../facades/categoryFacade";
 import {useRouter} from "next/router";
 import AdminLayout from "../../../components/adminLayout";
@@ -8,14 +8,13 @@ import brandFacade from "../../../facades/brandFacade";
 import {Textarea} from "react-bootstrap-icons";
 import TextArea from "antd/lib/input/TextArea";
 
-const IdPage = () => {
+const CreatePage = () => {
 
     const router = useRouter();
-    const {id} = router.query
 
     const [brand, setBrand] = useState({
-        id: "",
-        name: ''
+        name: '',
+        description:''
     });
 
 
@@ -28,24 +27,13 @@ const IdPage = () => {
         });
     };
 
-    useEffect(()=>{
-        if(router.query.id){
-            getBrand()
-        }
-    },[router.isReady])
-
-    const getBrand = async () => {
-        await brandFacade.getBrandById(id).then(setBrand)
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await brandFacade.update(brand)
+        let createdBrand = await brandFacade.create(brand)
+        message.success("Brand created",1)
+        await router.push("/admin/brands/"+createdBrand.id)
     };
-
-    const goBack = () =>{
-        router.push("/admin/brands")
-    }
 
     return (
         <AdminLayout>
@@ -53,15 +41,7 @@ const IdPage = () => {
                 <Row className="justify-content-md-center">
                     <Col md={6}>
                         <Form onSubmit={handleSubmit} className={"shadow p-3 bg-white rounded"}>
-                        <h1>Edit Brand</h1>
-                            <Form.Group controlId="formCategoryId" className="mb-3">
-                                <label>ID:</label>
-                                <Input
-                                    value={brand.id}
-                                    readOnly
-                                    disabled
-                                />
-                            </Form.Group>
+                            <h1>Create Brand</h1>
                             <Form.Group controlId="formCategoryName" className="mb-3">
                                 <label>Name:</label>
                                 <Input
@@ -81,10 +61,7 @@ const IdPage = () => {
                             </Form.Group>
                             <Row>
                                 <Col>
-                                    <Button className="btn-secondary" onClick={goBack}>back</Button>
-                                </Col>
-                                <Col>
-                                    <Button  className={"float-end"} type="submit">Save</Button>
+                                    <Button  className={"float-end"} type="submit">Create</Button>
                                 </Col>
                             </Row>
                         </Form>
@@ -95,4 +72,4 @@ const IdPage = () => {
     );
 };
 
-export default IdPage;
+export default CreatePage;

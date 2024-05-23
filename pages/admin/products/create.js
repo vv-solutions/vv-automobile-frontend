@@ -8,52 +8,40 @@ import categoryFacade from "../../../facades/categoryFacade";
 import AdminLayout from "../../../components/adminLayout";
 import {log} from "next/dist/server/typescript/utils";
 
-const ProductDetails = () => {
+const ProductCreate = () => {
     const router = useRouter();
-    const { id } = router.query;
-    const [product, setProduct] = useState(null);
+    const [product, setProduct] = useState({
+        name: '',
+        imgUrl: '',
+        brandId: '',
+        price: '',
+        description: '',
+        categoryId: ''
+    });
     const [categories, setCategories] = useState(null);
     const [brands, setBrands] = useState(null);
     const [form] = Form.useForm();
-    const [availability,setAvailability] = useState(null);
 
     useEffect(() => {
-        if (id) {
-                getData()
+            getData()
 
-        }
-    }, [id]);
+    }, []);
 
 
     const getData =async ()=>{
-        await productFacade.getProductById(id).then(setProduct)
         await brandFacade.getAll().then(setBrands)
         await categoryFacade.getAll().then(setCategories)
-        await productFacade.getProductAvailability(id).then(setAvailability)
     }
-
 
     const goBack = () => {
-        router.push("/admin/products")
+        router.back();
     };
 
-
-    const handleFinishFailed = (errorInfo) => {
-        console.error('Failed:', errorInfo);
-    };
-
-    if (!product) {
-        return (
-            <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <Spinner animation="border" />
-            </Container>
-        );
-    }
-    
     const handleSubmit =  async (e)=>{
-     e.preventDefault();
-     await productFacade.update(product)
-        message.success("Product updated",1)
+        e.preventDefault();
+        let createdProduct =  await productFacade.create(product)
+        message.success("Product created",1)
+        await router.push("/admin/products/"+createdProduct.id)
     }
 
     const handleChange = (e) =>{
@@ -76,11 +64,11 @@ const ProductDetails = () => {
                         <Image src={product.imgUrl} alt={product.name} fluid />
                     </Col>
                     <Col md={6} className={"shadow p-3 bg-white rounded"}>
-                        <h5>Update the product:</h5>
+                        <h5>Create product:</h5>
                         <form className="w-100" onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="name" className="form-label">Product Name</label>
-                                <input type="text" className="form-control" id="name" value={product.name || ''} onChange={handleChange} required />
+                                <input type="text" className="form-control" id="name" value={product.name} onChange={handleChange} required />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="name" className="form-label">Image Url:</label>
@@ -114,29 +102,14 @@ const ProductDetails = () => {
                             </div>
 
                             <div>
-                                <Button type="submit" variant="success" className=" float-end">Save</Button>
+                                <Button type="submit" variant="success" className=" float-end">Create</Button>
                             </div>
                         </form>
                     </Col>
-                </Row>
-
-                <Row className={""}>
-                <Col></Col>
-                <Col className={"shadow p-3 mb-5 bg-white rounded"}>
-                    {availability &&
-                <div className="mb-3">
-                    <h5>Update the product availability:</h5>
-                    <label htmlFor="quantity" className="form-label">Quantity</label>
-                    <input type="number" className="form-control mb-3 w-50" id="quantity" value={availability.quantity} onChange={handleChange} required min="0" />
-
-                    <Button type="submit" variant="success" className="float-end">Save</Button>
-                </div>
-                    }
-                </Col>
                 </Row>
             </Container>
         </AdminLayout>
     );
 };
 
-export default ProductDetails;
+export default ProductCreate;
