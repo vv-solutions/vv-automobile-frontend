@@ -126,7 +126,7 @@ const ProductsIndexPage = () => {
             <Table
                     pagination={false}
                    scroll={{
-                       y: 1000,
+                       y: 500,
                    }} columns={columns} dataSource={products}
 
             />
