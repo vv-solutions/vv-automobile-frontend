@@ -1,0 +1,24 @@
+.gridContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #ffffff; /* Ensure the background is white */
+}
+
+.card {
+    background-color: #f0f0f0 !important; /* Light gray background for the card */
+    border: 1px solid #ddd; /* Light border */
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow */
+}
+
+.cardTitle {
+    color: #333; /* Darker text color */
+    font-size: 1.2em;
+    margin: 0;
+}
