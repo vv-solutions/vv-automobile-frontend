@@ -2,24 +2,73 @@ import {useRouter} from "next/router";
 import {useContext, useEffect, useState} from "react";
 import cartFacade from "../facades/cartFacade";
 import {CartContext} from "../Context/CartContext";
+import productFacade from "../facades/productFacade";
 
 function CartComponent({products, nextPage, order,setOrder}) {
 
     const [cart, setCart] = useState([]);
     const {updateCartQuantity } = useContext(CartContext);
+    const [enrichedCart, setEnrichedCart] = useState([]);
+
     useEffect(() => {
-        cartFacade.fetchCartItems().then(setCart).catch(error => console.error(error));
+        async function fetchCartData() {
+            try {
+                const cartItems = await cartFacade.fetchCartItems();
+                setCart(cartItems);
+
+                const productIds = cartItems.map(item => item.productId);
+                const productDetails = await productFacade.getProductsByIds(productIds);
+
+                // Merge the product details with cart quantities
+                const enrichedCartData = cartItems.map(item => {
+                    const productDetail = productDetails.find(p => p.id == item.productId);
+
+                    return {
+                        productId: item.productId,
+                        name: productDetail.name,
+                        imgUrl: productDetail.imgUrl,
+                        pricePerUnit: parseFloat(productDetail.price),
+                        quantity: item.quantity
+                    };
+                });
+
+                setEnrichedCart(enrichedCartData);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchCartData();
     }, []);
+
 
     const handleUpdateQuantity = async (productId, newQuantity) => {
         try {
             await cartFacade.updateCartItemQuantity(productId, newQuantity);
-            cartFacade.fetchCartItems().then(setCart).catch(error => console.error(error));
             updateCartQuantity()
+            // Update the quantity in the enriched cart directly
+            setEnrichedCart(
+                enrichedCart.map(item =>
+                    item.productId === productId
+                        ? { ...item, quantity: newQuantity }
+                        : item
+                )
+            );
         } catch (error) {
             console.error('Failed to update quantity:', error);
         }
     };
+
+    //
+    // const handleUpdateQuantity = async (productId, newQuantity) => {
+    //     try {
+    //         await cartFacade.updateCartItemQuantity(productId, newQuantity);
+    //         cartFacade.fetchCartItems().then(setCart).catch(error => console.error(error));
+    //         updateCartQuantity()
+    //     } catch (error) {
+    //         console.error('Failed to update quantity:', error);
+    //     }
+    // };
 
     const handleRemoveFromCart = async (productId) => {
         try {
@@ -114,7 +163,8 @@ function CartComponent({products, nextPage, order,setOrder}) {
                         <h4>Price</h4>
                     </div>
                 </div>
-                {cart.map((product) => (
+
+                {enrichedCart && enrichedCart.map((product) => (
                     <div className="cart-line" key={product.productId}>
                         <div className="cart-line__description">
                             <strong className="title">
@@ -124,7 +174,7 @@ function CartComponent({products, nextPage, order,setOrder}) {
                             </strong>
                         </div>
                         <div className="cart-line__price">
-                            {product.pricePerUnit.toFixed(2)} DKK
+                            {isNaN(product.pricePerUnit)?0:product.pricePerUnit.toFixed(2)} DKK
                         </div>
                         <div className="cart-line__amount">
                             <button className="button button_minus"

@@ -9,9 +9,17 @@ function productFacade() {
         const opts = makeOptions('GET');
 
         const path = `category?category=${category}&count=${count}&page=${page}${brands.map(b => "&brands="+b).join("")}&orderBy=${orderBy}`
+        return await fetch(URL + path, opts).then((r) => r.json());
+    }
+
+    async function getProductsByIds(productIds) {
+        console.log("hello")
+        const opts = makeOptions('GET');
+        const path = `list?${productIds.map(p => "&id="+p).join("")}`
         console.log(path)
         return await fetch(URL + path, opts).then((r) => r.json());
     }
+
 
     async function getProductById(id) {
         const opts = makeOptions('GET');
@@ -58,7 +66,8 @@ function productFacade() {
         getAll,
         update,
         getProductAvailability,
-        create
+        create,
+        getProductsByIds
     };
 }
 

@@ -1,5 +1,5 @@
 import {useRouter} from "next/router";
-import {Button, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import AddToCart from "../../components/AddToCart";
 import productFacade from "../../facades/productFacade";
@@ -90,11 +90,21 @@ function Index() {
     }
 
 
+    const goBack = () => {
+        router.back()
+    };
+
+
 
     return(
         <>
             {product &&
             <div className="productContainer">
+                <Row className="my-4">
+                    <Col>
+                        <Button variant="secondary" onClick={goBack}>Go Back</Button>
+                    </Col>
+                </Row>
                 <Row>
                     <div className="shadow p-3 mb-5 bg-white rounded">
                 <div className="productDetails">

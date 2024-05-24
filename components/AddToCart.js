@@ -22,7 +22,7 @@ const AddToCart = ({ product }) => {
                 await cartFacade.updateCartItemQuantity(product.id, newQuantity);
             } else {
                 // Add new product to the cart
-                await cartFacade.addToCart(product.id, quantity, product.name, product.imgUrl, product.price);
+                await cartFacade.addToCart(product.id, quantity);
             }
             // Update the cart quantity displayed in the application
             updateCartQuantity();
