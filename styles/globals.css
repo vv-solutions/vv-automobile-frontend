@@ -219,11 +219,11 @@ body, p, .body-text {
   position: relative;
 }
 
-.order-steps-menu .steps-list {
+.steps-list {
   margin: 20px 0 0;
   display: inline-block;
 }
-.order-steps-menu .steps-list li {
+.steps-list li {
   float: left;
   margin: 0 40px 0 0;
   position: relative;
@@ -237,14 +237,14 @@ body, p, .body-text {
   cursor: default;
 }
 
-.order-steps-menu .steps-list li.active  {
+.steps-list li.active  {
   color: #000;
   font-weight: 400;
   font-weight: 700;
   font-size: 16px;
 }
 
-.order-steps-menu .steps-list li  {
+.steps-list li  {
   text-transform: uppercase;
   font-weight: 400;
   display: block;
@@ -253,13 +253,13 @@ body, p, .body-text {
   position: relative;
   text-align: center;
 }
-.order-steps-menu .steps-list {
+.steps-list {
   position: relative;
   list-style: none;
   padding-left: 50px;
 }
 
-.order-steps-menu .steps-list li {
+.steps-list li {
   position: relative;
   padding-left: 50px;
   margin-bottom: 10px;
@@ -425,4 +425,22 @@ body, p, .body-text {
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
   margin:0 !important;
+}
+
+
+:where(.css-dev-only-do-not-override-17seli4).ant-steps .ant-steps-item-process .ant-steps-item-icon{
+  background-color:rgb(44, 62, 80);
+  border-color:rgb(44, 62, 100);
+}
+.ant-steps-item-content{
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.ant-btn-primary{
+  background-color: #027a2e;
+}
+.ant-btn-primary:hover{
+  background-color: #009c39 !important;
 }

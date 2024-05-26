@@ -45,6 +45,9 @@ const[query,setQuery] = useState("")
                     <Link className="link" href="/admin">
                         Admin
                     </Link>
+                    <Link className="link" href="/PriceAssessment">
+                        Price assessment
+                    </Link>
                 </Nav>
                 {!router.pathname.toLocaleLowerCase().includes("admin") &&
                 <Form className="d-flex me-auto" style={{flexGrow: 1, maxWidth: "500px", marginRight: "15px"}}
