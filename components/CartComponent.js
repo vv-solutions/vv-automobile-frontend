@@ -73,15 +73,15 @@ function CartComponent({ products, nextPage, order, setOrder }) {
         };
     };
 
-    const handleIncrementQuantity = debounce(async (productId) => {
+    const handleIncrementQuantity =async (productId) => {
         const product = cart.find(item => item.productId === productId);
         if (product) {
             const newQuantity = product.quantity + 1;
             await handleUpdateQuantity(productId, newQuantity);
         }
-    }, 30);
+    };
 
-    const handleDecrementQuantity = debounce(async (productId) => {
+    const handleDecrementQuantity =async (productId) => {
         const product = cart.find(item => item.productId === productId);
         if (product) {
             const newQuantity = Math.max(0, product.quantity - 1);
@@ -91,7 +91,7 @@ function CartComponent({ products, nextPage, order, setOrder }) {
                 await handleUpdateQuantity(productId, newQuantity);
             }
         }
-    }, 30);
+    };
 
     const handleRemoveFromCart = async (productId) => {
         try {
