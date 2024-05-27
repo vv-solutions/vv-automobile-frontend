@@ -146,7 +146,7 @@ const Home = () => {
             title: 'Car Valuation',
             content: (
                 <div>
-                    {estimatedPrice &&
+                    {!isLoading &&
                     <div>
                     <Title level={4}>Price Assessment</Title>
                     {/* eslint-disable-next-line react/no-unescaped-entities */}
@@ -159,7 +159,9 @@ const Home = () => {
                         </Col>
                     </Row>
                     <Divider />
-                    <p><strong>Estimated Price:</strong> {estimatedPrice} DKK</p> {/* Replace with actual price assessment logic */}
+                        {estimatedPrice > 0 &&
+                    <p><strong>Estimated Price:</strong> {estimatedPrice.toFixed(2)} DKK</p>
+                        }
                     <Button type="default" onClick={handleReset} style={{ marginRight: '1rem' }}>
                         Reset
                     </Button>
@@ -168,7 +170,7 @@ const Home = () => {
                     }
 
                     { isLoading &&
-                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '30vh' }}>
                         <Spin size="large" />
                     </div>
                 }
