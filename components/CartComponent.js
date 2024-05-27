@@ -134,16 +134,16 @@ function CartComponent({ products, nextPage, order, setOrder }) {
 
     return (
         <>
-            <div>
-                <div className="order-steps-menu hidden-print mb-5">
-                    <h5 className={"text-start w-75 m-auto"} style={{ color: "white" }}>.</h5>
-                    <ul className="steps-list">
-                        <li className="active">Cart</li>
-                        <li className="disabled">Information</li>
-                        <li className="disabled">Confirmation</li>
-                    </ul>
-                </div>
-            </div>
+            {/*<div>*/}
+            {/*    <div className="order-steps-menu hidden-print mb-5">*/}
+            {/*        <h5 className={"text-start w-75 m-auto"} style={{ color: "white" }}>.</h5>*/}
+            {/*        <ul className="steps-list">*/}
+            {/*            <li className="active">Cart</li>*/}
+            {/*            <li className="disabled">Information</li>*/}
+            {/*            <li className="disabled">Confirmation</li>*/}
+            {/*        </ul>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div className="w-75 m-auto">
                 <div className="cart-headlines">
                     <div className="header-item description">

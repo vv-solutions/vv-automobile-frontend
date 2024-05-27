@@ -444,3 +444,41 @@ body, p, .body-text {
 .ant-btn-primary:hover{
   background-color: #009c39 !important;
 }
+
+/* CHAT */
+.chatWidgetContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 300px;
+}
+
+.rcw-conversation-container {
+  border-radius: 10px;
+}
+
+.rcw-header {
+  background-color: #00B2A9;
+  color: white;
+}
+
+
+.rcw-new-message {
+  padding: 10px 20px;
+}
+
+.rcw-title {
+  font-size: 16px;
+}
+
+.rcw-subtitle {
+  font-size: 12px;
+}
+.rcw-conversation-container .rcw-header{
+  background-color: #2C3E50 !important;
+}
+.rcw-launcher {
+  background-color: #2C3E50 !important;
+}
+

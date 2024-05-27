@@ -82,7 +82,6 @@ const Home = () => {
                     <Form.Item
                         label="Kilometers Driven"
                         name="kilometers"
-                        rules={[{ required: true, message: 'Please enter kilometers driven' }]}
                     >
                         <InputNumber style={{ width: '100%' }} placeholder="Enter kilometers" />
                     </Form.Item>

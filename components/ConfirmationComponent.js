@@ -7,21 +7,21 @@ function ConfirmationComponent({order}) {
 
     return (
         <>
-            <div>
-                <div className="order-steps-menu hidden-print mb-5">
-                    <ul className="steps-list">
-                        <li className="">
-                            Cart
-                        </li>
-                        <li className="">
-                            Information
-                        </li>
-                        <li className="active">
-                            Confirmation
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            {/*<div>*/}
+            {/*    <div className="order-steps-menu hidden-print mb-5">*/}
+            {/*        <ul className="steps-list">*/}
+            {/*            <li className="">*/}
+            {/*                Cart*/}
+            {/*            </li>*/}
+            {/*            <li className="">*/}
+            {/*                Information*/}
+            {/*            </li>*/}
+            {/*            <li className="active">*/}
+            {/*                Confirmation*/}
+            {/*            </li>*/}
+            {/*        </ul>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div className="container my-5">
                 <h1 className="text-center mb-4">Order Confirmation</h1>
                 <div className="card">

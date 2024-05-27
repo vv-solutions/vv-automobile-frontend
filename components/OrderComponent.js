@@ -36,22 +36,23 @@ function OrderComponent({nextPage, prevPage, order,setOrder, setCreatedOrder}) {
 
     return (
         <>
-            <div>
-                <div className="order-steps-menu hidden-print mb-5">
-                    <h5 className={"text-start w-75 m-auto"} onClick={prevPage} style={{cursor: "pointer"}}>Go Back</h5>
-                    <ul className="steps-list">
-                        <li className="">
-                            Cart
-                        </li>
-                        <li className="active">
-                            Information
-                        </li>
-                        <li className="disabled">
-                            Confirmation
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            {/*<div>*/}
+            {/*    <div className="order-steps-menu hidden-print mb-5">*/}
+            {/*        <h5 className={"text-start w-75 m-auto"} onClick={prevPage} style={{cursor: "pointer"}}>Go Back</h5>*/}
+            {/*        <ul className="steps-list">*/}
+            {/*            <li className="">*/}
+            {/*                Cart*/}
+            {/*            </li>*/}
+            {/*            <li className="active">*/}
+            {/*                Information*/}
+            {/*            </li>*/}
+            {/*            <li className="disabled">*/}
+            {/*                Confirmation*/}
+            {/*            </li>*/}
+            {/*        </ul>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+            <h5 className={"text-start w-75 m-auto mb-5"} onClick={prevPage} style={{cursor: "pointer"}}>Go Back</h5>
             <form className="w-75 m-auto" onSubmit={handleSubmit}>
                 <div className="row mb-3">
                     <div className="col-md-6">
@@ -100,7 +101,8 @@ function OrderComponent({nextPage, prevPage, order,setOrder, setCreatedOrder}) {
                     <div className="col-md-3">
                         <label htmlFor="houseNumber" className="form-label ">House number<span
                             className="text-danger">*</span></label>
-                        <input type="number" required className="form-control" id="houseNumber" value={order.houseNumber}
+                        <input type="number" required className="form-control" id="houseNumber"
+                               value={order.houseNumber}
                                onChange={handleChange}/>
                     </div>
                     <div className="col-md-3">
