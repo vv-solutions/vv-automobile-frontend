@@ -12,9 +12,11 @@ import {
     Col,
     Row,
     Space,
-    InputNumber
+    InputNumber, Spin
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import productFacade from "../facades/productFacade";
+import predictionFacade from "../facades/predictionFacade";
 
 const { Title } = Typography;
 const { Step } = Steps;
@@ -23,10 +25,14 @@ const { Option } = Select;
 const Home = () => {
     const [current, setCurrent] = useState(0);
     const [formData, setFormData] = useState({
-        licensePlate: '',
-        variant: '',
-        kilometers: ''
+        numberplate: null,
+        image: null,
+        km: null
     });
+
+    const [isLoading,setIsLoading] = useState(true)
+
+    const [estimatedPrice,setEstimatedPrice] = useState(0)
 
     const handleNext = (values) => {
         setFormData({ ...formData, ...values });
@@ -42,33 +48,62 @@ const Home = () => {
         setCurrent(current + 1);
     };
 
+    const handleUpload = ({file}) =>{
+        setFormData({ ...formData, ['image']:file });
+    }
+
+    const handleSubmit = async (values) =>{
+
+        setFormData({ ...formData, ...values });
+
+        let  data = formData;
+
+        data["km"] = values.km;
+
+
+        setCurrent(current + 1);
+        setIsLoading(true)
+        await predictionFacade.getPrediction(data).then(setEstimatedPrice);
+        setIsLoading(false)
+    }
+
+    const handleReset = () => {
+        setFormData({
+            numberplate: null,
+            image: null,
+            km: null
+        })
+        setEstimatedPrice(0)
+        setCurrent(0);
+    }
+
     const steps = [
         {
             title: 'Register Your Car',
             content: (
                 <Form onFinish={handleNext} layout="vertical">
 
-
                     <Form.Item
                         label="License Plate"
-                        name="licensePlate"
-                        rules={[{ required: true, message: 'Please input your license plate!' }]}
+                        name="numberplate"
+                        rules={[{ required: false, message: 'Please input your license plate!' }]}
                     >
                         <Input placeholder="Enter License Plate" />
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" block>
-                            Find Car
-                        </Button>
                     </Form.Item>
 
                     <Divider style={{ margin: '2rem 0' }}>Or</Divider>
 
                     <Form.Item label="Upload an Image of the Car">
-                        <Upload>
+                        <Upload customRequest={handleUpload}>
                             <Button icon={<UploadOutlined />}>Upload</Button>
                         </Upload>
+                    </Form.Item>
+
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" block>
+                            Next
+                        </Button>
                     </Form.Item>
                 </Form>
             ),
@@ -76,12 +111,12 @@ const Home = () => {
         {
             title: 'Mileage Information',
             content: (
-                <Form onFinish={handleFinish} layout="vertical">
+                <Form onFinish={handleSubmit} layout="vertical">
                     {/*<Title level={4}>Car Information</Title>*/}
 
                     <Form.Item
                         label="Kilometers Driven"
-                        name="kilometers"
+                        name="km"
                     >
                         <InputNumber style={{ width: '100%' }} placeholder="Enter kilometers" />
                     </Form.Item>
@@ -111,20 +146,32 @@ const Home = () => {
             title: 'Car Valuation',
             content: (
                 <div>
+                    {estimatedPrice &&
+                    <div>
                     <Title level={4}>Price Assessment</Title>
+                    {/* eslint-disable-next-line react/no-unescaped-entities */}
                     <p>Your car's price is estimated based on the provided details.</p>
                     <Divider />
                     <Row gutter={[16, 16]}>
                         <Col span={12}>
-                            <p><strong>License Plate:</strong> {formData.licensePlate}</p>
-                            <p><strong>Kilometers Driven:</strong> {formData.kilometers ? formData.kilometers : 'Auto-determined'}</p>
+                            <p><strong>License Plate:</strong> {formData.numberplate}</p>
+                            <p><strong>Kilometers Driven:</strong> {formData.km ? formData.km : 'Auto-determined'}</p>
                         </Col>
                     </Row>
                     <Divider />
-                    <p><strong>Estimated Price:</strong> 52.793 DKK</p> {/* Replace with actual price assessment logic */}
-                    <Button type="default" onClick={handlePrevious} style={{ marginRight: '1rem' }}>
-                        Previous
+                    <p><strong>Estimated Price:</strong> {estimatedPrice} DKK</p> {/* Replace with actual price assessment logic */}
+                    <Button type="default" onClick={handleReset} style={{ marginRight: '1rem' }}>
+                        Reset
                     </Button>
+
+                    </div>
+                    }
+
+                    { isLoading &&
+                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                        <Spin size="large" />
+                    </div>
+                }
                 </div>
             ),
         },
