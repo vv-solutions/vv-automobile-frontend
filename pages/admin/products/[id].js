@@ -63,6 +63,21 @@ const ProductDetails = () => {
         setProduct({...product,[id]:value})
     }
 
+    const handleChangeAvailability = (e) =>{
+        const id = e.target.id;
+        const value = e.target.value;
+
+        setAvailability({...availability,[id]:value})
+    }
+
+    const handleUpdateAvailability =  async ()=>{
+        let a = availability;
+
+        a["product"] = product
+        await productFacade.updateAvailability(a)
+        message.success("Availability updated",1)
+    }
+
     return (
         <AdminLayout>
             <Container>
@@ -127,9 +142,9 @@ const ProductDetails = () => {
                 <div className="mb-3">
                     <h5>Update the product availability:</h5>
                     <label htmlFor="quantity" className="form-label">Quantity</label>
-                    <input type="number" className="form-control mb-3 w-50" id="quantity" value={availability.quantity} onChange={handleChange} required min="0" />
+                    <input type="number" className="form-control mb-3 w-50" id="quantity" value={availability.quantity} onChange={handleChangeAvailability} required min="0" />
 
-                    <Button type="submit" variant="success" className="float-end">Save</Button>
+                    <Button type="submit" variant="success" onClick={handleUpdateAvailability} className="float-end">Save</Button>
                 </div>
                     }
                 </Col>

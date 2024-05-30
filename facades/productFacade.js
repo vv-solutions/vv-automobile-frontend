@@ -57,6 +57,11 @@ function productFacade() {
         return await fetch(URL , opts).then((r) =>  r.json());
     }
 
+    async function updateAvailability(productAvailability) {
+        const opts = makeOptions('PUT',productAvailability);
+        return await fetch(URL+"/updateAvailability", opts).then((r) =>  r.json());
+    }
+
 
     return {
         getProductsByCategory,
@@ -67,7 +72,8 @@ function productFacade() {
         update,
         getProductAvailability,
         create,
-        getProductsByIds
+        getProductsByIds,
+        updateAvailability
     };
 }
 

@@ -8,7 +8,7 @@ function orderFacade() {
 
     async function createOrder(order) {
         const opts = makeOptions('POST',order);
-        return await fetch(URL , opts).then((r) =>  r.json());
+        return await fetch(URL , opts);
     }
 
     async function getAll(count,page) {

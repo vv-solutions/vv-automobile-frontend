@@ -4,6 +4,7 @@ import {log} from "next/dist/server/typescript/utils";
 import cartFacade from "../facades/cartFacade";
 import {useContext} from "react";
 import {CartContext} from "../Context/CartContext";
+import {message} from "antd";
 
 function OrderComponent({nextPage, prevPage, order,setOrder, setCreatedOrder}) {
     const {updateCartQuantity } = useContext(CartContext);
@@ -20,14 +21,26 @@ function OrderComponent({nextPage, prevPage, order,setOrder, setCreatedOrder}) {
 
         try {
             // Create the order
-            await orderFacade.createOrder(order).then(setCreatedOrder)
 
-            // Clear the Redis cart
-            await cartFacade.clearCart(); // Assuming you have a method to clear the cart in your cartFacade
+            let cont = false
+            await orderFacade.createOrder(order).then(async (res) => {
+                    const r = await res.json();
+                    if (res.status != 200) {
+                        message.error(r.message, 5)
+                    } else {
+                        setCreatedOrder(r)
+                        cont = true
+                    }
+                }
+            )
+            if(cont){
+                // Clear the Redis cart
+                await cartFacade.clearCart(); // Assuming you have a method to clear the cart in your cartFacade
 
-            updateCartQuantity()
-            // Proceed to the next page
-            nextPage();
+                updateCartQuantity()
+                // Proceed to the next page
+                nextPage();
+            }
         } catch (error) {
             console.error('Failed to create order:', error);
         }
