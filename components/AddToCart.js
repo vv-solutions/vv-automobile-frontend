@@ -1,7 +1,7 @@
 import {useContext, useState} from 'react';
 import cartFacade from "../facades/cartFacade";
 import {CartContext} from "../Context/CartContext";
-import {LoadingOutlined} from "@ant-design/icons";
+import {CheckOutlined, LoadingOutlined} from "@ant-design/icons";
 
 const AddToCart = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
@@ -53,7 +53,7 @@ const AddToCart = ({ product }) => {
                 disabled={loading}
                 style={{height: '36px'}}
             >
-                {loading ? <LoadingOutlined/> : 'Buy'}
+                {loading ? <CheckOutlined/> : 'Buy'}
             </button>
         </div>
     );
