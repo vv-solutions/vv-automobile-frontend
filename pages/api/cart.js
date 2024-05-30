@@ -1,5 +1,8 @@
 import redis from '../../lib/redis';
 import { getSessionId } from '../../lib/cookies';
+
+const CART_EXPIRATION_SECONDS = 86400; // 24 hours
+
 export default async (req, res) => {
     const sessionId = getSessionId(req, res);
 
@@ -14,6 +17,7 @@ export default async (req, res) => {
         case 'POST':
             const { productId, quantity } = req.body;
             await redis.hset(`cart:${sessionId}`, productId, quantity.toString());
+            await redis.expire(`cart:${sessionId}`, CART_EXPIRATION_SECONDS);
             res.status(200).json({ message: 'Item added to cart' });
             break;
         case 'PUT':
@@ -21,6 +25,7 @@ export default async (req, res) => {
             const existingQuantity = await redis.hget(`cart:${sessionId}`, updateProductId);
             if (existingQuantity !== null) {
                 await redis.hset(`cart:${sessionId}`, updateProductId, newQuantity.toString());
+                await redis.expire(`cart:${sessionId}`, CART_EXPIRATION_SECONDS);
                 res.status(200).json({ message: 'Item quantity updated' });
             } else {
                 res.status(404).json({ message: 'Item not found in cart' });
@@ -31,6 +36,12 @@ export default async (req, res) => {
             if (deleteProductId) {
                 // Delete individual item from cart
                 await redis.hdel(`cart:${sessionId}`, deleteProductId);
+                const remainingItems = await redis.hlen(`cart:${sessionId}`);
+                if (remainingItems === 0) {
+                    await redis.del(`cart:${sessionId}`);
+                } else {
+                    await redis.expire(`cart:${sessionId}`, CART_EXPIRATION_SECONDS);
+                }
                 res.status(200).json({ message: 'Item removed from cart' });
             } else {
                 // Clear the entire cart
