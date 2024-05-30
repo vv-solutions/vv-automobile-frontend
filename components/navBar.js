@@ -49,32 +49,35 @@ const[query,setQuery] = useState("")
                         Price assessment
                     </Link>
                 </Nav>
-                {!router.pathname.toLocaleLowerCase().includes("admin") &&
-                <Form className="d-flex me-auto" style={{flexGrow: 1, maxWidth: "500px", marginRight: "15px"}}
-                      onSubmit={search}>
-                    <FormControl
-                        type="search"
-                        placeholder="Search products"
-                        className="me-2"
-                        aria-label="Search"
-                        value={query}
-                        onChange={handleChange}
-                        style={{
-                            backgroundColor: "#ECF0F1",
-                            borderColor: "#6c757d",
-
-                        }}
-                    />
-                    <Button variant="outline-light" type={"submit"}>Search</Button>
-                </Form>
-                }
-                <Link className="link me-5" href="/shop/cart" passHref>
-                    <Badge count={cartQuantity} offset={[4, 0]} style={{backgroundColor:'#f9f9f9', color:'black' ,border:"none"}}>
-                        <ShoppingCartOutlined style={{fontSize: '30px',color: '#BDC3C7'}}/>
-                    </Badge>
-                </Link>
+                {!router.pathname.toLocaleLowerCase().includes("admin") && (
+                    <Form className="d-flex mx-auto search-form" onSubmit={search}>
+                        <FormControl
+                            type="search"
+                            placeholder="Search products"
+                            className="me-2"
+                            aria-label="Search"
+                            value={query}
+                            onChange={handleChange}
+                            style={{
+                                backgroundColor: "#ECF0F1",
+                                borderColor: "#6c757d",
+                            }}
+                        />
+                        <Button variant="outline-light" type="submit">Search</Button>
+                    </Form>
+                )}
+                <Nav className="ms-auto align-items-center">
+                    <Link className="link me-5" href="/shop/cart" passHref>
+                        <Badge count={cartQuantity} offset={[4, 0]} style={{ backgroundColor: '#f9f9f9', color: 'black', border: "none" }}>
+                            <ShoppingCartOutlined style={{ fontSize: '30px', color: '#BDC3C7' }} />
+                        </Badge>
+                    </Link>
+                </Nav>
             </Navbar.Collapse>
         </Navbar>
+
+
+
     )
 }
 

@@ -134,16 +134,6 @@ function CartComponent({ products, nextPage, order, setOrder }) {
 
     return (
         <>
-            {/*<div>*/}
-            {/*    <div className="order-steps-menu hidden-print mb-5">*/}
-            {/*        <h5 className={"text-start w-75 m-auto"} style={{ color: "white" }}>.</h5>*/}
-            {/*        <ul className="steps-list">*/}
-            {/*            <li className="active">Cart</li>*/}
-            {/*            <li className="disabled">Information</li>*/}
-            {/*            <li className="disabled">Confirmation</li>*/}
-            {/*        </ul>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             <div className="w-75 m-auto">
                 <div className="cart-headlines">
                     <div className="header-item description">
@@ -166,20 +156,28 @@ function CartComponent({ products, nextPage, order, setOrder }) {
                 {enrichedCart && enrichedCart.map((product) => (
                     <div className="cart-line" key={product.productId}>
                         <div className="cart-line__description">
-                            <strong className="title">
-                                <img src={product.imgUrl} alt={product.name} style={{ width: 110, paddingRight: 30 }} />
-                                <a href={product.url} target="_top" title={product.name}>{product.name}</a>
-                            </strong>
+                            <div className="product-info">
+                                <img src={product.imgUrl} alt={product.name} className="product-image"/>
+                                <div className="product-details">
+                                    <strong className="title">
+                                        <a href={"/product/" + product.productId} target="_top"
+                                           title={product.name}>{product.name}</a>
+                                    </strong>
+                                    <small className="product-no">Product No:&nbsp;{product.productId}</small>
+                                </div>
+                            </div>
                         </div>
                         <div className="cart-line__price">
                             {isNaN(product.pricePerUnit) ? 0 : product.pricePerUnit.toFixed(2)} DKK
                         </div>
                         <div className="cart-line__amount">
                             <button className="button button_minus"
-                                    onClick={() => handleDecrementQuantity(product.productId)}>-</button>
-                            <input type="text" value={product.quantity} className="amount-input" readOnly />
+                                    onClick={() => handleDecrementQuantity(product.productId)}>-
+                            </button>
+                            <input type="text" value={product.quantity} className="amount-input" readOnly/>
                             <button className="button button_plus"
-                                    onClick={() => handleIncrementQuantity(product.productId)}>+</button>
+                                    onClick={() => handleIncrementQuantity(product.productId)}>+
+                            </button>
                         </div>
                         <div className="cart-line__delete">
                             <button className="button button_delete"

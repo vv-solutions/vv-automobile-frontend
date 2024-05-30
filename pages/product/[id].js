@@ -23,7 +23,6 @@ function Index() {
     const [recommendedProducts,setRecommendedProducts] = useState();
 
     const getStockColor = () =>{
-        console.log("colled")
         if(product.productAvailabilityQuantity > 10){
             return "green";
         } else if(product.productAvailabilityQuantity > 0){
@@ -110,20 +109,27 @@ function Index() {
                 <div className="productDetails">
                     <img className="productImage" src={product.imgUrl} alt={product.name} />
                     <div className="productInfo">
-                        <h1 className="productName">{product.name}</h1>
-                            <p>{brand.name}</p>
-                            <p className="productPrice">{product.price.toFixed(2)} DKK</p>
+                        <h1 className="productName mb-0">{product.name}</h1>
+                        <small className="product-no">Product No:&nbsp;{product.id}</small>
+                        <b className={"mb-3 mt-2"}>{brand.name}</b>
+                        <p className="productPrice">{product.price.toFixed(2)} DKK</p>
 
-                        { reviews &&
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Rate disabled allowHalf value={avgRating} defaultValue={0} />
-                                <p style={{ marginLeft: '10px', lineHeight: '24px', marginBottom: 0, color:"gray"}}>{reviews.length} reviews</p>
+                        {reviews &&
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                                <Rate disabled allowHalf value={avgRating} defaultValue={0}/>
+                                <p style={{
+                                    marginLeft: '10px',
+                                    lineHeight: '24px',
+                                    marginBottom: 0,
+                                    color: "gray"
+                                }}>{reviews.length} reviews</p>
                             </div>
                         }
                         <div className={"w-50"}>
-                        <AddToCart product={product}/>
+                            <AddToCart product={product}/>
                         </div>
-                        <p className="" style={{color: getStockColor()}} >In Stock: {product.productAvailabilityQuantity}</p>
+                        <p className="" style={{color: getStockColor()}}>In
+                            Stock: {product.productAvailabilityQuantity}</p>
                     </div>
                 </div>
 
