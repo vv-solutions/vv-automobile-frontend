@@ -6,7 +6,7 @@ import styles from '/styles/ChatWidget.module.css';
 
 function ChatWidgetComponent() {
     useEffect(() => {
-        addResponseMessage('Welcome to our car parts store! How can I help you today?');
+        addResponseMessage('Welcome to V&V Automobile! How can I help you today?');
     }, []);
 
     const handleNewUserMessage = async (newMessage) => {

@@ -49,22 +49,6 @@ function OrderComponent({nextPage, prevPage, order,setOrder, setCreatedOrder}) {
 
     return (
         <>
-            {/*<div>*/}
-            {/*    <div className="order-steps-menu hidden-print mb-5">*/}
-            {/*        <h5 className={"text-start w-75 m-auto"} onClick={prevPage} style={{cursor: "pointer"}}>Go Back</h5>*/}
-            {/*        <ul className="steps-list">*/}
-            {/*            <li className="">*/}
-            {/*                Cart*/}
-            {/*            </li>*/}
-            {/*            <li className="active">*/}
-            {/*                Information*/}
-            {/*            </li>*/}
-            {/*            <li className="disabled">*/}
-            {/*                Confirmation*/}
-            {/*            </li>*/}
-            {/*        </ul>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             <h5 className={"text-start w-75 m-auto mb-5"} onClick={prevPage} style={{cursor: "pointer"}}>Go Back</h5>
             <form className="w-75 m-auto" onSubmit={handleSubmit}>
                 <div className="row mb-3">
@@ -107,11 +91,6 @@ function OrderComponent({nextPage, prevPage, order,setOrder, setCreatedOrder}) {
                                onChange={handleChange}/>
                     </div>
                     <div className="col-md-3">
-                        <label htmlFor="zipcode" className="form-label">Zip code <span className="text-danger">*</span></label>
-                        <input type="number" className="form-control" id="zipcode" value={order.zipcode}
-                               onChange={handleChange} required/>
-                    </div>
-                    <div className="col-md-3">
                         <label htmlFor="houseNumber" className="form-label ">House number<span
                             className="text-danger">*</span></label>
                         <input type="number" required className="form-control" id="houseNumber"
@@ -124,6 +103,11 @@ function OrderComponent({nextPage, prevPage, order,setOrder, setCreatedOrder}) {
                         </label>
                         <input type="text" className="form-control" id="addressLine2" value={order.addressLine2}
                                onChange={handleChange}/>
+                    </div>
+                    <div className="col-md-3">
+                        <label htmlFor="zipcode" className="form-label">Zip code <span className="text-danger">*</span></label>
+                        <input type="number" className="form-control" id="zipcode" value={order.zipcode}
+                               onChange={handleChange} required/>
                     </div>
                 </div>
 
