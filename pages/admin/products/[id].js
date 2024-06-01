@@ -78,6 +78,12 @@ const ProductDetails = () => {
         message.success("Availability updated",1)
     }
 
+    const deleteProduct =async () =>{
+        await productFacade.deleteProduct(id)
+
+        await router.push("/admin/products")
+    }
+
     return (
         <AdminLayout>
             <Container>
@@ -127,10 +133,20 @@ const ProductDetails = () => {
                                     ))}
                                 </select>
                             </div>
+                            <Row>
+                                <Col>
+
+                            <div>
+                                <Button variant="danger" onClick={deleteProduct} className="float-start">Delete</Button>
+                            </div>
+                                </Col>
+                                <Col>
 
                             <div>
                                 <Button type="submit" variant="success" className=" float-end">Save</Button>
                             </div>
+                                </Col>
+                            </Row>
                         </form>
                     </Col>
                 </Row>

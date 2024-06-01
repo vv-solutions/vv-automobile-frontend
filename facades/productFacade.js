@@ -61,7 +61,10 @@ function productFacade() {
         const opts = makeOptions('PUT',productAvailability);
         return await fetch(URL+"/updateAvailability", opts).then((r) =>  r.json());
     }
-
+    async function deleteProduct(id) {
+        const opts = makeOptions('PUT');
+        return await fetch(URL+"/delete/"+id, opts);
+    }
 
     return {
         getProductsByCategory,
@@ -73,7 +76,8 @@ function productFacade() {
         getProductAvailability,
         create,
         getProductsByIds,
-        updateAvailability
+        updateAvailability,
+        deleteProduct
     };
 }
 
