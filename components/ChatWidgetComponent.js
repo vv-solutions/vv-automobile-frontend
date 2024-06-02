@@ -13,8 +13,15 @@ function ChatWidgetComponent() {
         toggleMsgLoader();
 
         try {
-            const answer = await chatFacade.getChatResponse(newMessage)
-            addResponseMessage(answer);
+
+            const chatDTO = {
+                msg: newMessage
+            }
+
+            let ret;
+           await chatFacade.getChatResponse(chatDTO).then(r => ret = r.msg )
+
+            addResponseMessage(ret)
         } catch (error) {
             console.error("Error fetching chat response:", error);
             addResponseMessage("Sorry, there was an error processing your message. Please try again.");

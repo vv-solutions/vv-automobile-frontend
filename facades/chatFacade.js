@@ -3,12 +3,14 @@ import {makeOptions} from "../util/fetchUtil";
 
 function chatFacade() {
 
-    const URL = '/api/chat/';
+    const URL = '/api/chat';
 
 
     async function getChatResponse(message) {
-        const opts = makeOptions('GET');
-        return await fetch(URL+message, opts).then((r) =>  r.json());
+
+        console.log(message)
+        const opts = makeOptions('POST',message);
+        return await fetch(URL, opts).then((r) =>  r.json());
     }
 
     return {

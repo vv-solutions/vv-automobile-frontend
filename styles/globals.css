@@ -508,11 +508,11 @@ body, p, .body-text {
   bottom: 20px;
   right: 20px;
   z-index: 1000;
-  width: 300px;
 }
 
 .rcw-conversation-container {
   border-radius: 10px;
+  max-width: 300px !important;
 }
 
 .rcw-header {
