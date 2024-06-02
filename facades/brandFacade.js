@@ -3,7 +3,7 @@ import {makeOptions} from "../util/fetchUtil";
 
 function brandFacade() {
 
-    const URL = '/api/brand/';
+    const URL = 'http://localhost:8081/brand/';
 
 
     async function getBrandById(id) {

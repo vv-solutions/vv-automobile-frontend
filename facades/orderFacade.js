@@ -3,7 +3,7 @@ import {makeOptions} from "../util/fetchUtil";
 
 function orderFacade() {
 
-    const URL = '/api/order/';
+    const URL = 'http://localhost:8081/order/';
 
 
     async function createOrder(order) {

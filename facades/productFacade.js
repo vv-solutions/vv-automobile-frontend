@@ -2,7 +2,7 @@ import {makeOptions} from "../util/fetchUtil";
 
 function productFacade() {
 
-    const URL = '/api/product/';
+    const URL = 'http://localhost:8081/product/';
 
     async function getProductsByCategory(category,count,page,brands,orderBy) {
 

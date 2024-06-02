@@ -3,7 +3,7 @@ import {makeOptions} from "../util/fetchUtil";
 
 function reviewFacade() {
 
-    const URL = '/api/review/';
+    const URL = 'http://localhost:8081//review/';
 
 
     async function getReviewsByProductId(id) {

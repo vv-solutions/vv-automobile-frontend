@@ -3,7 +3,7 @@ import {makeOptions} from "../util/fetchUtil";
 
 function categoryId() {
 
-    const URL = '/api/category/';
+    const URL = 'http://localhost:8081/category/';
 
 
     async function getById(id) {

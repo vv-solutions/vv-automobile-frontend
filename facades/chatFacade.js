@@ -3,7 +3,7 @@ import {makeOptions} from "../util/fetchUtil";
 
 function chatFacade() {
 
-    const URL = '/api/chat';
+    const URL = 'http://localhost:8081/chat';
 
 
     async function getChatResponse(message) {

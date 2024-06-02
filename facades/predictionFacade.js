@@ -3,7 +3,7 @@ import {makeOptions} from "../util/fetchUtil";
 
 function predictionFacade() {
 
-    const URL = '/api/prediction/';
+    const URL = 'http://localhost:8081/prediction/';
 
 
     async function getPrediction(data) {
