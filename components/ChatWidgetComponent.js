@@ -1,8 +1,6 @@
-// components/ChatWidgetComponent.js
-import { Widget, addResponseMessage } from 'react-chat-widget';
+import { Widget, addResponseMessage, toggleMsgLoader } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import { useEffect } from 'react';
-import styles from '/styles/ChatWidget.module.css';
 
 function ChatWidgetComponent() {
     useEffect(() => {
@@ -11,20 +9,34 @@ function ChatWidgetComponent() {
 
     const handleNewUserMessage = async (newMessage) => {
         console.log(`New message incoming! ${newMessage}`);
-        // Send message to backend and get the response
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: newMessage })
-        });
-        const data = await response.json();
-        addResponseMessage(data.reply);
+
+        // Show typing indicator
+        toggleMsgLoader();
+
+        try {
+            // Send message to backend and get the response
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: newMessage })
+            });
+            const data = await response.json();
+
+            // Add response message
+            addResponseMessage(data.reply);
+        } catch (error) {
+            console.error("Error fetching chat response:", error);
+            addResponseMessage("Sorry, there was an error processing your message. Please try again.");
+        } finally {
+            // Hide typing indicator
+            toggleMsgLoader();
+        }
     };
 
     return (
-        <div className={styles.chatWidgetContainer}>
+        <div className="chatWidgetContainer">
             <Widget
                 handleNewUserMessage={handleNewUserMessage}
                 title="Chat with us"

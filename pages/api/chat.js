@@ -1,4 +1,3 @@
-// pages/api/chat.js
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { message } = req.body;
@@ -12,6 +11,8 @@ export default async function handler(req, res) {
 }
 
 async function getChatResponse(message) {
+    // Simulate a delay
+    await new Promise(resolve => setTimeout(resolve, 2000)); // 2 seconds delay
     // Replace this with actual integration with your chat model
     return `You said: ${message}`;
 }
