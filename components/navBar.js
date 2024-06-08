@@ -46,7 +46,7 @@ const[query,setQuery] = useState("")
                         Admin
                     </Link>
                     <Link className="link" href="/PriceAssessment">
-                        Price assessment
+                        Car Valuation
                     </Link>
                 </Nav>
                 {!router.pathname.toLocaleLowerCase().includes("admin") && (

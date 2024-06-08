@@ -10,7 +10,7 @@ function chatFacade() {
 
         console.log(message)
         const opts = makeOptions('POST',message);
-        return await fetch(URL, opts).then((r) =>  r.json());
+        return await fetch(URL, opts);
     }
 
     return {

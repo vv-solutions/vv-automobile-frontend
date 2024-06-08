@@ -12,11 +12,12 @@ import {
     Col,
     Row,
     Space,
-    InputNumber, Spin
+    InputNumber, Spin, message
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import productFacade from "../facades/productFacade";
 import predictionFacade from "../facades/predictionFacade";
+import orderFacade from "../facades/orderFacade";
 
 const { Title } = Typography;
 const { Step } = Steps;
@@ -34,6 +35,19 @@ const Home = () => {
 
     const [estimatedPrice,setEstimatedPrice] = useState(0)
 
+    const initialStateCar ={"make": "",
+        model: "",
+        modelYear: "",
+        gearType: "",
+        kilometers: "",
+        fuelType: "",
+        horsePower: "",
+        result: '',
+        reg: ''}
+
+    const [car,setCar] = useState(initialStateCar);
+
+
     const handleNext = (values) => {
         setFormData({ ...formData, ...values });
         setCurrent(current + 1);
@@ -49,21 +63,31 @@ const Home = () => {
     };
 
     const handleUpload = ({file}) =>{
+        file["status"] = "done"
         setFormData({ ...formData, ['image']:file });
     }
 
-    const handleSubmit = async (values) =>{
+    const handleSubmit = async (values) => {
 
-        setFormData({ ...formData, ...values });
+        setFormData({...formData, ...values});
 
-        let  data = formData;
+        let data = formData;
 
         data["km"] = values.km;
 
 
         setCurrent(current + 1);
         setIsLoading(true)
-        await predictionFacade.getPrediction(data).then(setEstimatedPrice);
+        await predictionFacade.getPrediction(data).then(async (res) => {
+            const r = await res.json();
+            if (res.status != 200) {
+                message.error(r.message+ ". Please reset to try again", 5)
+                setEstimatedPrice(0)
+            } else {
+                setCar(r)
+                //setEstimatedPrice(r)
+            }
+        })
         setIsLoading(false)
     }
 
@@ -74,7 +98,12 @@ const Home = () => {
             km: null
         })
         setEstimatedPrice(0)
+        setCar(initialStateCar)
         setCurrent(0);
+    }
+
+    const handleImageChange = ({file}) =>{
+        file["status"] = "done"
     }
 
     const steps = [
@@ -94,7 +123,8 @@ const Home = () => {
                     <Divider style={{ margin: '2rem 0' }}>Or</Divider>
 
                     <Form.Item label="Upload an Image of the Car">
-                        <Upload customRequest={handleUpload}>
+                        <Upload onChange={handleImageChange} listType="picture"
+                                maxCount={1} action={""} customRequest={handleUpload}>
                             <Button icon={<UploadOutlined />}>Upload</Button>
                         </Upload>
                     </Form.Item>
@@ -146,34 +176,53 @@ const Home = () => {
             title: 'Car Valuation',
             content: (
                 <div>
-                    {!isLoading &&
-                    <div>
-                    <Title level={4}>Price Assessment</Title>
-                    {/* eslint-disable-next-line react/no-unescaped-entities */}
-                    <p>Your car's price is estimated based on the provided details.</p>
-                    <Divider />
-                    <Row gutter={[16, 16]}>
-                        <Col span={12}>
-                            <p><strong>License Plate:</strong> {formData.numberplate}</p>
-                            <p><strong>Kilometers Driven:</strong> {formData.km ? formData.km : 'Auto-determined'}</p>
-                        </Col>
-                    </Row>
-                    <Divider />
-                        {estimatedPrice > 0 &&
-                    <p><strong>Estimated Price:</strong> {estimatedPrice.toFixed(2)} DKK</p>
-                        }
-                    <Button type="default" onClick={handleReset} style={{ marginRight: '1rem' }}>
-                        Reset
-                    </Button>
-
-                    </div>
-                    }
-
-                    { isLoading &&
-                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '30vh' }}>
-                        <Spin size="large" />
-                    </div>
-                }
+                    <Title level={3}>Car Valuation</Title>
+                    {!isLoading ? (
+                        <div>
+                            {/* eslint-disable-next-line react/no-unescaped-entities */}
+                            <p>Your car's price is estimated based on the details below.</p>
+                            <Divider />
+                            <Row gutter={[16, 16]}>
+                                <Col span={12}>
+                                    {
+                                     car.numberplate &&
+                                    <p><strong>License Plate:</strong> {car.numberplate.toUpperCase()}</p>
+                                    }
+                                    {
+                                     car.make   &&
+                                    <p><strong>Make:</strong> {car.make[0].toUpperCase() + car.make.slice(1)}</p>
+                                    }
+                                    {car.model &&
+                                    <p><strong>Model:</strong> {car.model[0].toUpperCase() + car.model.slice(1)}</p>
+                                    }
+                                    {
+                                        car.modelYear &&
+                                    <p><strong>Model Year:</strong> {car.modelYear}</p>
+                                    }
+                                    {car.kilometers &&
+                                    <p><strong>Kilometers Driven:</strong> {car.kilometers || 'Auto-determined'}</p>
+                                    }
+                                </Col>
+                                <Col span={12}>
+                                    <p><strong>Fuel Type:</strong> {car.fuelType}</p>
+                                    <p><strong>Horse Power:</strong> {car.horsePower}</p>
+                                    <p><strong>Gear Type:</strong> {car.gearType == "M"? "Manual" : "Automatic"}</p>
+                                    <p><strong>1. Registration:</strong> {car.reg}</p>
+                                </Col>
+                            </Row>
+                            <Divider />
+                            {car.result > 0 && (
+                                <p><strong>Estimated Price:</strong> {car.result.toFixed(2)} DKK</p>
+                            )}
+                            <Button type="default" onClick={handleReset} style={{ marginRight: '1rem' }}>
+                                Reset
+                            </Button>
+                        </div>
+                    ) : (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '30vh' }}>
+                            <Spin size="large" />
+                        </div>
+                    )}
                 </div>
             ),
         },

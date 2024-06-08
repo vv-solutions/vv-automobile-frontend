@@ -26,7 +26,7 @@ function predictionFacade() {
         opts.body = formData;
         delete opts.headers['Content-type']
 
-        return await fetch(URL, opts).then((r) =>  r.json());
+        return await fetch(URL, opts);
     }
 
 
