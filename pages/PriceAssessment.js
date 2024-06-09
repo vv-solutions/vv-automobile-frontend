@@ -204,10 +204,23 @@ const Home = () => {
                                     }
                                 </Col>
                                 <Col span={12}>
+                                    {car.fuelType &&
                                     <p><strong>Fuel Type:</strong> {car.fuelType}</p>
+                                    }
+                                    {
+                                        car.horsePower &&
                                     <p><strong>Horse Power:</strong> {car.horsePower}</p>
+                                    }
+                                    {
+                                        car.gearType &&
                                     <p><strong>Gear Type:</strong> {car.gearType == "M"? "Manual" : "Automatic"}</p>
+                                    }
+
+                                    {
+                                        car.reg &&
+                                        
                                     <p><strong>1. Registration:</strong> {car.reg}</p>
+                                    }
                                 </Col>
                             </Row>
                             <Divider />
